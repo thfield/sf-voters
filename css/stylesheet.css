@@ -13,9 +13,7 @@ path {
   stroke: #000;
 }
 
-.hidden {
-  display: none;
-}
+
 
 /* tooltip */
 #tooltip {
@@ -34,9 +32,6 @@ path {
   font-size: 12px;
   line-height: 20px;
 }
-#tooltip .hidden {
-  display: none;
-}
 
 /* structure */
 .chart-container {
@@ -53,6 +48,7 @@ path {
 #map_container {
   /*height: 500px;*/
 }
+
 
 /* osm road map */
 .major_road {

@@ -1,28 +1,136 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
 
   <title>SF Maps</title>
   <link rel="stylesheet" href="css/stylesheet.css">
-  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="vendor/css/bootstrap.css">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
   <script src="vendor/d3.js" charset="utf-8"></script>
   <script src="vendor/topojson.js" charset="utf-8"></script>
-  <script src="vendor/index.js"></script> <!-- d3.geo.tile.js -->
+  <script src="vendor/index.js"></script>
+  <!-- d3.geo.tile.js -->
   <script src="vendor/d3-queue.js"></script>
+
+  <script src="vendor/jquery-2.2.4.js"></script>
+  <script src="vendor/bootstrap.js"></script>
 </head>
 
 <body>
 
-<div class="container">
-  <div id="map_container" class="chart-container"> </div>
-</div>
+  <div class="container clearfix">
+    <div class="row">
+      <div id="map_container" class="chart-container"> </div>
+    </div>
 
-<script src="js/index.js"></script>
+    <div class="row">
+      <div class="col-md-4">
+        <label for="party">Party:
+          <br>
+          <div class="btn-group" id="party" data-toggle="buttons">
+            <label class="btn btn-default active">
+              <input type="radio" name="party" autocomplete="off" onChange="ui.switchParty(this.value)" checked>Democrats
+            </label>
+            <label class="btn btn-default">
+              <input type="radio" name="party" autocomplete="off" onChange="ui.switchParty(this.value)">Republicans
+            </label>
+          </div></label>
+      </div>
+
+      <div class="col-md-4">
+        <label for="compare">Number of candidates:</label>
+        <br>
+        <div class="btn-group" id="compare" data-toggle="buttons">
+          <label class="btn btn-default active">
+            <input type="radio" name="compare" autocomplete="off" onChange="ui.candidateCompare()" checked>One
+          </label>
+          <label class="btn btn-default">
+            <input type="radio" name="compare" autocomplete="off" onChange="ui.candidateCompare()">Two
+          </label>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="ballot-type">Ballot Type:</label>
+        <br>
+        <div class="btn-group" id="ballot-type" data-toggle="buttons">
+          <label class="btn btn-default active">
+            <input type="radio" name="compare" autocomplete="off" onChange="" checked>Both
+          </label>
+          <label class="btn btn-default">
+            <input type="radio" name="compare" autocomplete="off" onChange="">Vote By Mail
+          </label>
+          <label class="btn btn-default">
+            <input type="radio" name="compare" autocomplete="off" onChange="">Election Day
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6" id="candidate1">
+        <div id="candidate1-d" class="candidates dems form-group">
+          <label for="candidates-democrats">Democrats</label>
+          <select class="candidate-list form-control" name="candidates-democrats">
+            <option value="KEITH_JUDD">Keith Judd</option>
+            <option value="MICHAEL_STEINBERG">Michael Steinberg</option>
+            <option value="BERNIE_SANDERS">Bernie Sanders</option>
+            <option value="WILLIE_WILSON">Willie Wilson</option>
+            <option value="ROQUE_DE_LA_FUENTE">Roque De La Fuente</option>
+            <option value="HILLARY_CLINTON">Hillary Clinton</option>
+            <option value="HENRY_HEWES">Henry Hewes</option>
+            <option value="WRITE_IN">Write In</option>
+          </select>
+        </div>
+        <div id="candidate1-r" class="candidates reps hidden form-group">
+          <label for="candidates-republicans">Republicans</label>
+          <select class="candidate-list form-control" name="candidates-republicans">
+            <option value="DONALD_TRUMP">Donald Trump</option>
+            <option value="BEN_CARSON">Ben Carson</option>
+            <option value="TED_CRUZ">Ted Cruz</option>
+            <option value="JOHN_KASICH">John Kasich</option>
+            <option value="JIM_GILMORE">Jim Gilmore</option>
+            <option value="WRITE_IN">Write In</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6 hidden" id="candidate2">
+        <div id="candidate2-d" class="candidates dems form-group">
+          <label for="candidates-democrats2">Democrats2</label>
+          <select class="candidate-list form-control" name="candidates-democrats2">
+            <option value="KEITH_JUDD">Keith Judd</option>
+            <option value="MICHAEL_STEINBERG">Michael Steinberg</option>
+            <option value="BERNIE_SANDERS">Bernie Sanders</option>
+            <option value="WILLIE_WILSON">Willie Wilson</option>
+            <option value="ROQUE_DE_LA_FUENTE">Roque De La Fuente</option>
+            <option value="HILLARY_CLINTON">Hillary Clinton</option>
+            <option value="HENRY_HEWES">Henry Hewes</option>
+            <option value="WRITE_IN">Write In</option>
+          </select>
+        </div>
+        <div id="candidate2-r" class="candidates reps hidden form-group">
+          <label for="candidates-republicans2">Republicans</label>
+          <select class="candidate-list form-control" name="candidates-republicans2">
+            <option value="DONALD_TRUMP">Donald Trump</option>
+            <option value="BEN_CARSON">Ben Carson</option>
+            <option value="TED_CRUZ">Ted Cruz</option>
+            <option value="JOHN_KASICH">John Kasich</option>
+            <option value="JIM_GILMORE">Jim Gilmore</option>
+            <option value="WRITE_IN">Write In</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <script src="js/index.js"></script>
 
 </body>
+
 </html>

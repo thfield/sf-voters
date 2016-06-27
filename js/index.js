@@ -5,7 +5,10 @@ var theData = 'data/pres_dem.csv',
     // theMap  = 'data/sfneighborhoods_topo.json',
     // geometry = 'SFFind_Neighborhoods',
     geoClass = 'blue',
-    defprop = 'HILLARY_CLINTON'
+    defprop = 'WRITE_IN',
+    ballotType = 'Election_Day',
+    candidate1 = 'HILLARY_CLINTON',
+    candidate2 = 'BERNIE_SANDERS'
 
 var width = 600,
     height = 600,
@@ -30,12 +33,16 @@ colors.range(bins)
 
 /* end init values */
 
-// var zoom = d3.behavior.zoom()
-//     .translate([0, 0])
-//     .scale(1)
-//     .scaleExtent([1, 8])
-//     .on("zoom", zoomed);
-// function zoomed () {}
+var zoom = d3.behavior.zoom()
+    .translate([0, 0])
+    .scale(1)
+    .scaleExtent([1, 8])
+    .on("zoom", zoomed);
+function zoomed() {
+  var g = d3.select('#map_container .'+geoClass+'s');
+  g.style("stroke-width", 1 / d3.event.scale + "px");
+  g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
 
 /* tooltip dispatcher */
   var tt = d3.dispatch('init', 'follow', 'hide')
@@ -65,7 +72,7 @@ colors.range(bins)
 /* end tooltip dispatcher */
 
 /* ui dispatcher */
-  var ui = d3.dispatch('clickedGeo', 'mouseOver')
+  var ui = d3.dispatch('clickedGeo', 'mouseOver', 'candidateCompare', 'switchParty')
   ui.on('clickedGeo', function(geoId){
   })
   ui.on('mouseOver', function(d, el) {
@@ -73,19 +80,33 @@ colors.range(bins)
     thisText = 'value: ' + d.id
     return tt.follow(me, thisText)
   })
+  ui.on('candidateCompare', function(){
+    var secondCandidate = d3.select('#candidate2')
+    secondCandidate.classed("hidden", !secondCandidate.classed("hidden"));
+  })
+  ui.on('switchParty', function(party){
+    var parties = d3.selectAll('.candidates')
+    // debugger
+    parties.classed("hidden", function(d,i){
+      // debugger
+      // if d.classed()
+    })
+  })
 /* end ui dispatcher */
 
 
 var q = d3.queue();
 q.defer(d3.json, theMap);
-q.defer(d3.csv, theData);
-// q.defer(d3.csv, theData, numberify);
+// q.defer(d3.csv, theData);
+q.defer(d3.csv, theData, preload);
 q.await(drawMap);
 
 function drawMap (error, map, data) {
   if (error) throw error;
+
   var exten = d3.extent(data,function(el){ return +el[defprop] })
   colors.domain(exten)
+  var comparison = compareCandidates(data, candidate1, candidate2)
 
   svg.append('g')
       .attr('class', geoClass + '-container')
@@ -98,25 +119,40 @@ function drawMap (error, map, data) {
       .on('mouseover', function(d){ return ui.mouseOver(d, this) })
       .on("mouseout", tt.hide )
       .attr('class', function(d){
-        var obj = getFromData(d.id, 'precinct', data) || ''
+        var obj = getFromData(d.id, 'precinct', data, ballotType) || ''
         var colorBin = colors(obj[defprop])
         return colorBin + ' ' + geoClass
       })
   //
-  // debugger
+
 }
 
-function getFromData(id, prop, data) {
+function compareCandidates(data, candidateA, candidateB) {
+  // returns difference of candidateA-candidateB (for sum of VBM and Election_Day)
+  return d3.nest()
+    .key(function(d) { return d.precinct })
+    .rollup(function(p) { var a =
+      d3.sum(p, function(d) { return d[candidateA]; })
+      -
+      d3.sum(p, function(d) { return d[candidateB]; })
+      return a
+     })
+    .map(data)
+}
+
+function getFromData(id, prop, data, type) {
   var result = data.find(function(el){
-    return el[prop] === id && el.ballot_type === "Election Day"
+    //"Election_Day" or "VBM"
+    return +el[prop] === +id && el.ballot_type === type
   })
-  // console.log(id)
   return result
 }
 
-function numberify (obj) {
+function preload (obj) {
   for (prop in obj){
+    // make sure numbers that were read as strings are changed to numbers
     if(!isNaN(+obj[prop])) obj[prop] = +obj[prop]
+    // if a value is an empty string, assume it should be 0
     if(obj[prop] === "") obj[prop] = 0
   }
   return obj
