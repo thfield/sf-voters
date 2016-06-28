@@ -33,12 +33,13 @@
           <br>
           <div class="btn-group" id="party" data-toggle="buttons">
             <label class="btn btn-default active">
-              <input type="radio" name="party" autocomplete="off" onChange="ui.switchParty(this.value)" checked>Democrats
+              <input type="radio" name="party" autocomplete="off" value="dems" onChange="ui.switchParty(this.value)" checked>Democrats
             </label>
             <label class="btn btn-default">
-              <input type="radio" name="party" autocomplete="off" onChange="ui.switchParty(this.value)">Republicans
+              <input type="radio" name="party" autocomplete="off" value="reps" onChange="ui.switchParty(this.value)">Republicans
             </label>
-          </div></label>
+          </div>
+        </label>
       </div>
 
       <div class="col-md-4">
@@ -46,10 +47,10 @@
         <br>
         <div class="btn-group" id="compare" data-toggle="buttons">
           <label class="btn btn-default active">
-            <input type="radio" name="compare" autocomplete="off" onChange="ui.candidateCompare()" checked>One
+            <input type="radio" name="compare" autocomplete="off" value="one" onChange="ui.candidateCompare()" checked>One
           </label>
           <label class="btn btn-default">
-            <input type="radio" name="compare" autocomplete="off" onChange="ui.candidateCompare()">Two
+            <input type="radio" name="compare" autocomplete="off" value="two" onChange="ui.candidateCompare()">Two
           </label>
         </div>
       </div>
@@ -59,13 +60,13 @@
         <br>
         <div class="btn-group" id="ballot-type" data-toggle="buttons">
           <label class="btn btn-default active">
-            <input type="radio" name="compare" autocomplete="off" onChange="" checked>Both
+            <input type="radio" name="ballot-type" autocomplete="off" value="both" onChange="" checked>Both
           </label>
           <label class="btn btn-default">
-            <input type="radio" name="compare" autocomplete="off" onChange="">Vote By Mail
+            <input type="radio" name="ballot-type" autocomplete="off" value="vbm" onChange="">Vote By Mail
           </label>
           <label class="btn btn-default">
-            <input type="radio" name="compare" autocomplete="off" onChange="">Election Day
+            <input type="radio" name="ballot-type" autocomplete="off" value="election_day" onChange="">Election Day
           </label>
         </div>
       </div>
@@ -113,7 +114,7 @@
           </select>
         </div>
         <div id="candidate2-r" class="candidates reps hidden form-group">
-          <label for="candidates-republicans2">Republicans</label>
+          <label for="candidates-republicans2">Republicans2</label>
           <select class="candidate-list form-control" name="candidates-republicans2">
             <option value="DONALD_TRUMP">Donald Trump</option>
             <option value="BEN_CARSON">Ben Carson</option>

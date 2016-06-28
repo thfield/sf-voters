@@ -85,15 +85,22 @@ function zoomed() {
     secondCandidate.classed("hidden", !secondCandidate.classed("hidden"));
   })
   ui.on('switchParty', function(party){
-    var parties = d3.selectAll('.candidates')
-    // debugger
-    parties.classed("hidden", function(d,i){
-      // debugger
-      // if d.classed()
-    })
+    var dems = d3.selectAll('.candidates').filter('.dems'),
+        reps = d3.selectAll('.candidates').filter('.reps')
+    if (party === 'dems'){
+      dems.classed("hidden", false)
+      reps.classed("hidden", true)
+    }
+    if (party === 'reps'){
+      dems.classed("hidden", true)
+      reps.classed("hidden", false)
+    }
   })
 /* end ui dispatcher */
 
+// document.querySelector('input[name="party"]:checked').value
+// var el = document.getElementById("candidates-democrats")
+// el.options[el.selectedIndex].value
 
 var q = d3.queue();
 q.defer(d3.json, theMap);
