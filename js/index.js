@@ -1,14 +1,19 @@
 /* init values */
-var theData = 'data/pres_dem.csv',
+var theDataPath = 'data/pres_dem.csv',
+    theDataPath2 = 'data/pres_rep.csv',
     theMap  = 'data/elect_precincts_topo.json',
     geometry = 'elect_precincts',
     // theMap  = 'data/sfneighborhoods_topo.json',
     // geometry = 'SFFind_Neighborhoods',
     geoClass = 'blue',
-    defprop = 'WRITE_IN',
+    defprop = 'HILLARY_CLINTON',
     ballotType = 'Election_Day',
     candidate1 = 'HILLARY_CLINTON',
     candidate2 = 'BERNIE_SANDERS'
+
+// global vars for loaded data
+var theData,
+    theData2
 
 var width = 600,
     height = 600,
@@ -45,71 +50,113 @@ function zoomed() {
 }
 
 /* tooltip dispatcher */
-  var tt = d3.dispatch('init', 'follow', 'hide')
-  tt.on('init', function(element){
-    d3.select(element).append('div')
-        .attr('id', 'tooltip')
-        .attr('class', 'hidden')
-      .append('span')
-        .attr('class', 'value')
-  })
-  tt.on('follow', function(element, caption, options){
-    element.on('mousemove', null);
-    element.on('mousemove', function() {
-      var position = d3.mouse(document.body);
-      d3.select('#tooltip')
-        .style('top', ( (position[1] + 30)) + "px")
-        .style('left', ( position[0]) + "px");
-      d3.select('#tooltip .value')
-        .text(caption);
-    });
-    d3.select('#tooltip').classed('hidden', false);
-  })
-  tt.on('hide', function(){
-    d3.select('#tooltip').classed('hidden', true);
-  })
-  tt.init('body')
+var tt = d3.dispatch('init', 'follow', 'hide')
+tt.on('init', function(element){
+  d3.select(element).append('div')
+      .attr('id', 'tooltip')
+      .attr('class', 'hidden')
+    .append('span')
+      .attr('class', 'value')
+})
+tt.on('follow', function(element, caption, options){
+  element.on('mousemove', null);
+  element.on('mousemove', function() {
+    var position = d3.mouse(document.body);
+    d3.select('#tooltip')
+      .style('top', ( (position[1] + 30)) + "px")
+      .style('left', ( position[0]) + "px");
+    d3.select('#tooltip .value')
+      .text(caption);
+  });
+  d3.select('#tooltip').classed('hidden', false);
+})
+tt.on('hide', function(){
+  d3.select('#tooltip').classed('hidden', true);
+})
+tt.init('body')
 /* end tooltip dispatcher */
 
 /* ui dispatcher */
-  var ui = d3.dispatch('clickedGeo', 'mouseOver', 'candidateCompare', 'switchParty')
-  ui.on('clickedGeo', function(geoId){
-  })
-  ui.on('mouseOver', function(d, el) {
-    var me = d3.select(el),
-    thisText = 'value: ' + d.id
-    return tt.follow(me, thisText)
-  })
-  ui.on('candidateCompare', function(){
-    var secondCandidate = d3.select('#candidate2')
-    secondCandidate.classed("hidden", !secondCandidate.classed("hidden"));
-  })
-  ui.on('switchParty', function(party){
-    var dems = d3.selectAll('.candidates').filter('.dems'),
-        reps = d3.selectAll('.candidates').filter('.reps')
-    if (party === 'dems'){
-      dems.classed("hidden", false)
-      reps.classed("hidden", true)
-    }
-    if (party === 'reps'){
-      dems.classed("hidden", true)
-      reps.classed("hidden", false)
-    }
-  })
+var ui = d3.dispatch('clickedGeo', 'mouseOver', 'switchCompare', 'switchParty', 'switchBallot', 'switchCandidate')
+ui.on('clickedGeo', function(geoId){
+})
+ui.on('mouseOver', function(d, el) {
+  var me = d3.select(el),
+  thisText = 'value: ' + d.id
+  return tt.follow(me, thisText)
+})
+ui.on('switchCompare', function(){
+  var secondCandidate = d3.select('#candidate2')
+  secondCandidate.classed("hidden", !secondCandidate.classed("hidden"));
+})
+ui.on('switchParty', function(party){
+  var dems = d3.selectAll('.candidates').filter('.dems'),
+      reps = d3.selectAll('.candidates').filter('.reps')
+  if (party === 'dems'){
+    dems.classed("hidden", false)
+    reps.classed("hidden", true)
+  }
+  if (party === 'reps'){
+    dems.classed("hidden", true)
+    reps.classed("hidden", false)
+  }
+})
+ui.on('switchBallot', function(ballot){
+  ballotType = ballot
+
+})
+ui.on('switchCandidate', function(){
+
+})
 /* end ui dispatcher */
 
-// document.querySelector('input[name="party"]:checked').value
-// var el = document.getElementById("candidates-democrats")
-// el.options[el.selectedIndex].value
+function redrawMap(){
+    // redraw the map after the initial rendering
+    svg.selectAll('.'+ geoClass)
+        .attr('class', function(d){
+          var obj = (d.id, 'precinct', theData, ballotType) || ''
+          var colorBin = colors(obj[defprop])
+          return colorBin + ' ' + geoClass
+        })
+
+}
+
+function readPage() {
+  // read the selected values from the page
+  var party = document.querySelector('input[name="party"]:checked').value,
+      compare = document.querySelector('input[name="compare"]:checked').value,
+      ballot =  document.querySelector('input[name="ballot-type"]:checked').value
+
+  var el = document.getElementsByName("candidates-democrats")[0],
+      dem1 = el.options[el.selectedIndex].value
+  el = document.getElementsByName("candidates-democrats2")[0]
+  var dem2 = el.options[el.selectedIndex].value
+  el = document.getElementsByName("candidates-republicans")[0]
+  var rep1 = el.options[el.selectedIndex].value
+  el = document.getElementsByName("candidates-republicans2")[0]
+  var rep2 = el.options[el.selectedIndex].value
+
+  return {
+    party: party,
+    compare: compare,
+    ballot: ballot,
+    dem1: dem1,
+    dem2: dem2,
+    rep1: rep1,
+    rep2: rep2
+  }
+}
 
 var q = d3.queue();
 q.defer(d3.json, theMap);
-// q.defer(d3.csv, theData);
-q.defer(d3.csv, theData, preload);
-q.await(drawMap);
+q.defer(d3.csv, theDataPath, preload);
+q.defer(d3.csv, theDataPath2, preload);
+q.await(renderMap);
 
-function drawMap (error, map, data) {
+function renderMap (error, map, data, data2) {
   if (error) throw error;
+  theData = data,
+  theData2 = data2
 
   var exten = d3.extent(data,function(el){ return +el[defprop] })
   colors.domain(exten)
@@ -173,6 +220,9 @@ function rangeArray (bins) {
   }
   return result
 }
+
+
+
 
 // function transformData (data) {
 //   data.forEach()
