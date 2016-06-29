@@ -12,8 +12,7 @@
 
   <script src="vendor/d3.js" charset="utf-8"></script>
   <script src="vendor/topojson.js" charset="utf-8"></script>
-  <script src="vendor/index.js"></script>
-  <!-- d3.geo.tile.js -->
+  <script src="vendor/index.js"></script><!-- d3.geo.tile.js -->
   <script src="vendor/d3-queue.js"></script>
 
   <script src="vendor/jquery-2.2.4.js"></script>
@@ -49,7 +48,7 @@
           <label class="btn btn-default active">
             <input type="radio" name="compare" autocomplete="off" value="one" onChange="ui.switchCompare()" checked>One
           </label>
-          <label class="btn btn-default">
+          <label class="btn btn-default disabled">
             <input type="radio" name="compare" autocomplete="off" value="two" onChange="ui.switchCompare()">Two
           </label>
         </div>
@@ -60,13 +59,13 @@
         <br>
         <div class="btn-group" id="ballot-type" data-toggle="buttons">
           <label class="btn btn-default active">
-            <input type="radio" name="ballot-type" autocomplete="off" value="both" onChange="ui.switchBallot(this.value)" disabled>Both
-          </label>
-          <label class="btn btn-default">
-            <input type="radio" name="ballot-type" autocomplete="off" value="VBM" onChange="ui.switchBallot(this.value)" >Vote By Mail
-          </label>
-          <label class="btn btn-default">
             <input type="radio" name="ballot-type" autocomplete="off" value="Election_Day" onChange="ui.switchBallot(this.value)" checked>Election Day
+          </label>
+          <label class="btn btn-default">
+            <input type="radio" name="ballot-type" autocomplete="off" value="VBM" onChange="ui.switchBallot(this.value)">Vote By Mail
+          </label>
+          <label class="btn btn-default disabled">
+            <input type="radio" name="ballot-type" autocomplete="off" value="both" onChange="ui.switchBallot(this.value)" disabled>Both
           </label>
         </div>
       </div>
@@ -74,23 +73,23 @@
 
     <div class="row">
       <div class="col-md-6" id="candidate1">
-        <div id="candidate1-d" class="candidates dems form-group">
-          <label for="candidates-democrats">Democrats</label>
-          <select class="candidate-list form-control" name="candidates-democrats">
+        <div class="candidates dem form-group">
+          <label for="candidates-democrats">Candidate:</label>
+          <select id="candidate1-d" class="candidate-list form-control" name="candidates-democrats">
             <option value="KEITH_JUDD">Keith Judd</option>
             <option value="MICHAEL_STEINBERG">Michael Steinberg</option>
             <option value="BERNIE_SANDERS">Bernie Sanders</option>
             <option value="WILLIE_WILSON">Willie Wilson</option>
             <option value="ROQUE_DE_LA_FUENTE">Roque De La Fuente</option>
-            <option value="HILLARY_CLINTON">Hillary Clinton</option>
+            <option value="HILLARY_CLINTON" selected>Hillary Clinton</option>
             <option value="HENRY_HEWES">Henry Hewes</option>
             <option value="WRITE_IN">Write In</option>
           </select>
         </div>
-        <div id="candidate1-r" class="candidates reps hidden form-group">
-          <label for="candidates-republicans">Republicans</label>
-          <select class="candidate-list form-control" name="candidates-republicans">
-            <option value="DONALD_TRUMP">Donald Trump</option>
+        <div class="candidates rep hidden form-group">
+          <label for="candidates-republicans">Candidate:</label>
+          <select id="candidate1-r" class="candidate-list form-control" name="candidates-republicans">
+            <option value="DONALD_TRUMP" selected>Donald Trump</option>
             <option value="BEN_CARSON">Ben Carson</option>
             <option value="TED_CRUZ">Ted Cruz</option>
             <option value="JOHN_KASICH">John Kasich</option>
@@ -100,12 +99,12 @@
         </div>
       </div>
       <div class="col-md-6 hidden" id="candidate2">
-        <div id="candidate2-d" class="candidates dems form-group">
-          <label for="candidates-democrats2">Democrats2</label>
-          <select class="candidate-list form-control" name="candidates-democrats2">
+        <div class="candidates dem form-group">
+          <label for="candidates-democrats2">Candidate 2:</label>
+          <select id="candidate2-d" class="candidate-list form-control" name="candidates-democrats2">
             <option value="KEITH_JUDD">Keith Judd</option>
             <option value="MICHAEL_STEINBERG">Michael Steinberg</option>
-            <option value="BERNIE_SANDERS">Bernie Sanders</option>
+            <option value="BERNIE_SANDERS" selected>Bernie Sanders</option>
             <option value="WILLIE_WILSON">Willie Wilson</option>
             <option value="ROQUE_DE_LA_FUENTE">Roque De La Fuente</option>
             <option value="HILLARY_CLINTON">Hillary Clinton</option>
@@ -113,11 +112,11 @@
             <option value="WRITE_IN">Write In</option>
           </select>
         </div>
-        <div id="candidate2-r" class="candidates reps hidden form-group">
-          <label for="candidates-republicans2">Republicans2</label>
-          <select class="candidate-list form-control" name="candidates-republicans2">
+        <div class="candidates rep hidden form-group">
+          <label for="candidates-republicans2">Candidate 2:</label>
+          <select id="candidate2-r" class="candidate-list form-control" name="candidates-republicans2">
             <option value="DONALD_TRUMP">Donald Trump</option>
-            <option value="BEN_CARSON">Ben Carson</option>
+            <option value="BEN_CARSON" selected>Ben Carson</option>
             <option value="TED_CRUZ">Ted Cruz</option>
             <option value="JOHN_KASICH">John Kasich</option>
             <option value="JIM_GILMORE">Jim Gilmore</option>

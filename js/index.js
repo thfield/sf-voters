@@ -5,32 +5,32 @@ var theDataPath = 'data/pres_dem.csv',
     geometry = 'elect_precincts',
     // theMap  = 'data/sfneighborhoods_topo.json',
     // geometry = 'SFFind_Neighborhoods',
-    geoClass = 'blue',
-    defprop = 'HILLARY_CLINTON',
+    geoClass = 'precinct',
+    geoColor = 'blue', //pink',
+    defprop = 'HILLARY_CLINTON',//'DONALD_TRUMP',//
     ballotType = 'Election_Day',
     candidate1 = 'HILLARY_CLINTON',
     candidate2 = 'BERNIE_SANDERS'
 
-// global vars for loaded data
-var theData,
-    theData2
+/* global var for loaded data */
+var theData = {}
 
 var width = 600,
     height = 600,
-    active = d3.select(null);
+    active = d3.select(null)
 
 var svg = d3.select("#map_container").append("svg")
     .attr("width", width)
     .attr("height", height)
-    // .on("click", stopped, true);
+    // .on("click", stopped, true)
 
 var projection = d3.geo.mercator()
     .center([-122.433701, 37.767683])
     .scale(200000)
-    .translate([width / 2, height / 2]);
+    .translate([width / 2, height / 2])
 
 var path = d3.geo.path()
-    .projection(projection);
+    .projection(projection)
 
 var bins = rangeArray(9)
 var colors = d3.scale.quantize()
@@ -42,11 +42,12 @@ var zoom = d3.behavior.zoom()
     .translate([0, 0])
     .scale(1)
     .scaleExtent([1, 8])
-    .on("zoom", zoomed);
+    .on("zoom", zoomed)
+
 function zoomed() {
-  var g = d3.select('#map_container .'+geoClass+'s');
-  g.style("stroke-width", 1 / d3.event.scale + "px");
-  g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+  var g = d3.select('#map_container .'+geoClass+'s')
+  g.style("stroke-width", 1 / d3.event.scale + "px")
+  g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")")
 }
 
 /* tooltip dispatcher */
@@ -66,7 +67,7 @@ tt.on('follow', function(element, caption, options){
       .style('top', ( (position[1] + 30)) + "px")
       .style('left', ( position[0]) + "px");
     d3.select('#tooltip .value')
-      .text(caption);
+      .text(caption)
   });
   d3.select('#tooltip').classed('hidden', false);
 })
@@ -90,34 +91,55 @@ ui.on('switchCompare', function(){
   secondCandidate.classed("hidden", !secondCandidate.classed("hidden"));
 })
 ui.on('switchParty', function(party){
-  var dems = d3.selectAll('.candidates').filter('.dems'),
-      reps = d3.selectAll('.candidates').filter('.reps')
-  if (party === 'dems'){
-    dems.classed("hidden", false)
-    reps.classed("hidden", true)
+  var dem = d3.selectAll('.candidates').filter('.dem'),
+      rep = d3.selectAll('.candidates').filter('.rep')
+  if (party === 'dem'){
+    dem.classed("hidden", false)
+    rep.classed("hidden", true)
   }
-  if (party === 'reps'){
-    dems.classed("hidden", true)
-    reps.classed("hidden", false)
+  if (party === 'rep'){
+    dem.classed("hidden", true)
+    rep.classed("hidden", false)
   }
+  redrawMap()
 })
 ui.on('switchBallot', function(ballot){
-  ballotType = ballot
-
+  redrawMap()
 })
 ui.on('switchCandidate', function(){
-
+  redrawMap()
 })
 /* end ui dispatcher */
 
 function redrawMap(){
+  var options = readPage()
+  //which ballotType?
+  //how many candidates?
+  //  if 2, compareCandidates()
+  //  else continue
+  //which candidate(s)
+
+  var cand
+  if (options.party === 'dem' && options.compare === 'one') {
+    cand = options.dem1
+    geoColor = 'blue'
+  }
+  if (options.party === 'rep' && options.compare === 'one') {
+    cand = options.rep1
+    geoColor = 'pink'
+  }
+
+  var exten = d3.extent(theData[options.party],function(el){ return +el[cand] })
+  colors.domain(exten)
     // redraw the map after the initial rendering
     svg.selectAll('.'+ geoClass)
         .attr('class', function(d){
-          var obj = (d.id, 'precinct', theData, ballotType) || ''
-          var colorBin = colors(obj[defprop])
-          return colorBin + ' ' + geoClass
+          var obj = getFromData(d.id, 'precinct', theData[options.party], options.ballot) || ''
+          var colorBin = colors(obj[cand])
+          // debugger
+          return colorBin + ' ' + geoClass + ' ' + geoColor
         })
+  //
 
 }
 
@@ -127,14 +149,10 @@ function readPage() {
       compare = document.querySelector('input[name="compare"]:checked').value,
       ballot =  document.querySelector('input[name="ballot-type"]:checked').value
 
-  var el = document.getElementsByName("candidates-democrats")[0],
-      dem1 = el.options[el.selectedIndex].value
-  el = document.getElementsByName("candidates-democrats2")[0]
-  var dem2 = el.options[el.selectedIndex].value
-  el = document.getElementsByName("candidates-republicans")[0]
-  var rep1 = el.options[el.selectedIndex].value
-  el = document.getElementsByName("candidates-republicans2")[0]
-  var rep2 = el.options[el.selectedIndex].value
+  var dem1 = document.getElementById('candidate1-d').value,
+      dem2 = document.getElementById('candidate2-d').value,
+      rep1 = document.getElementById('candidate1-r').value,
+      rep2 = document.getElementById('candidate2-r').value
 
   return {
     party: party,
@@ -155,12 +173,14 @@ q.await(renderMap);
 
 function renderMap (error, map, data, data2) {
   if (error) throw error;
-  theData = data,
-  theData2 = data2
+  theData.dem = data,
+  theData.rep = data2
+
+  // TODO: write loop to combine VBM and Election_Day results and create new row with ballot_type: "both"
 
   var exten = d3.extent(data,function(el){ return +el[defprop] })
   colors.domain(exten)
-  var comparison = compareCandidates(data, candidate1, candidate2)
+  // var comparison = compareCandidates(data, candidate1, candidate2)
 
   svg.append('g')
       .attr('class', geoClass + '-container')
@@ -175,7 +195,7 @@ function renderMap (error, map, data, data2) {
       .attr('class', function(d){
         var obj = getFromData(d.id, 'precinct', data, ballotType) || ''
         var colorBin = colors(obj[defprop])
-        return colorBin + ' ' + geoClass
+        return colorBin + ' ' + geoClass + ' ' + geoColor
       })
   //
 
@@ -228,3 +248,6 @@ function rangeArray (bins) {
 //   data.forEach()
 //   return data
 // }
+
+/* add listener to select options */
+$(".candidate-list").change(ui.switchCandidate)
