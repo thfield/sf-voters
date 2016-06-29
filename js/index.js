@@ -36,6 +36,12 @@ var bins = rangeArray(9)
 var colors = d3.scale.quantize()
 colors.range(bins)
 
+svg.append("g")
+  .attr("class", "legendQuant")
+var legend = d3.legend.color()
+  .labelFormat(d3.format("f"))
+  .useClass(true)
+
 /* end init values */
 
 var zoom = d3.behavior.zoom()
@@ -130,17 +136,23 @@ function redrawMap(){
   }
 
   var exten = d3.extent(theData[options.party],function(el){ return +el[cand] })
+  console.log(exten)
+  
   colors.domain(exten)
-    // redraw the map after the initial rendering
-    svg.selectAll('.'+ geoClass)
-        .attr('class', function(d){
-          var obj = getFromData(d.id, 'precinct', theData[options.party], options.ballot) || ''
-          var colorBin = colors(obj[cand])
-          // debugger
-          return colorBin + ' ' + geoClass + ' ' + geoColor
-        })
+  // redraw the map after the initial rendering
+  svg.selectAll('.'+ geoClass)
+      .attr('class', function(d){
+        var obj = getFromData(d.id, 'precinct', theData[options.party], options.ballot) || ''
+        var colorBin = colors(obj[cand])
+        return colorBin + ' ' + geoClass + ' ' + geoColor
+      })
   //
+  legend.scale(colors);
+  svg.select(".legendQuant")
+    .call(legend);
 
+  svg.selectAll('.legendCells .swatch')
+    .classed(geoColor, true)
 }
 
 function readPage() {
@@ -180,7 +192,6 @@ function renderMap (error, map, data, data2) {
 
   var exten = d3.extent(data,function(el){ return +el[defprop] })
   colors.domain(exten)
-  // var comparison = compareCandidates(data, candidate1, candidate2)
 
   svg.append('g')
       .attr('class', geoClass + '-container')
@@ -199,6 +210,13 @@ function renderMap (error, map, data, data2) {
       })
   //
 
+  legend.scale(colors);
+
+  svg.select(".legendQuant")
+    .call(legend);
+
+  svg.selectAll('.legendCells .swatch')
+    .classed(geoColor, true)
 }
 
 function compareCandidates(data, candidateA, candidateB) {
