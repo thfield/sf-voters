@@ -7,13 +7,12 @@ var theDataPath = 'data/pres_dem.csv',
     // geometry = 'SFFind_Neighborhoods',
     geoClass = 'precinct',
     geoColor = 'blue',
-    defprop = 'HILLARY_CLINTON',
-    ballotType = 'Election_Day',
-    candidate1 = 'HILLARY_CLINTON',
-    candidate2 = 'BERNIE_SANDERS'
+    defaultProp = 'HILLARY_CLINTON',
+    ballotType = 'Election_Day'
 
-/* global var for loaded data */
-var theData = {}
+/* global vars for loaded data */
+var theData = {},
+    mapDict = {}
 
 var width = 600,
     height = 600,
@@ -89,7 +88,7 @@ ui.on('clickedGeo', function(geoId){
 })
 ui.on('mouseOver', function(d, el) {
   var me = d3.select(el),
-  thisText = 'value: ' + d.id
+  thisText = geoClass + ': ' + d.id
   return tt.follow(me, thisText)
 })
 ui.on('switchCompare', function(){
@@ -121,7 +120,7 @@ function redrawMap(){
   var options = readPage()
   //which ballotType?
   //how many candidates?
-  //  if 2, compareCandidates()
+  //  if 2, twoCandidates()
   //  else continue
   //which candidate(s)
 
@@ -187,9 +186,7 @@ function renderMap (error, map, data, data2) {
   theData.dem = data,
   theData.rep = data2
 
-  // TODO: change getFromData to use rolled up data like compareCandidates
-
-  var exten = d3.extent(data,function(el){ return +el[defprop] })
+  var exten = d3.extent(data,function(el){ return +el[defaultProp] })
   colors.domain(exten)
 
   svg.append('g')
@@ -204,34 +201,66 @@ function renderMap (error, map, data, data2) {
       .on("mouseout", tt.hide )
       .attr('class', function(d){
         var obj = getFromData(d.id, 'precinct', data, ballotType) || ''
-        var colorBin = colors(obj[defprop])
+        var colorBin = colors(obj[defaultProp])
         return colorBin + ' ' + geoClass + ' ' + geoColor
       })
   //
 
-  legend.scale(colors);
-
+  legend.scale(colors)
   svg.select(".legendQuant")
-    .call(legend);
-
+    .call(legend)
   svg.selectAll('.legendCells .swatch')
     .classed(geoColor, true)
 }
 
-function compareCandidates(data, candidateA, candidateB) {
+function oneCandidate(data, candidate, ballot) {
+  //
+  var nested = {}
+  if (ballot === 'both'){
+    nested = d3.nest()
+        .key(function(d) { return d.precinct })
+        .rollup(function(p) {
+          return d3.sum(p, function(d) { return d.HILLARY_CLINTON; })
+         })
+        .map(data)
+  } else {
+    nested = d3.nest()
+      .key(function(d) { return d.precinct })
+      .key(function(d) { return d.ballot_type })
+      .rollup(function(p) {
+        return d3.sum(p, function(d) { return d[candidate] })
+       })
+      .map(data)
+    nested = nestSimplified(nested, ballot)
+  }
+
+return nested
+}
+
+function twoCandidates(data, candidateA, candidateB) {
   // returns difference of candidateA-candidateB (for sum of VBM and Election_Day)
+  //TODO  allot passing in of 'ballot' prop to compare ballot types
   return d3.nest()
     .key(function(d) { return d.precinct })
     .rollup(function(p) { var a =
-      d3.sum(p, function(d) { return d[candidateA]; })
+      d3.sum(p, function(d) { return d[candidateA] })
       -
-      d3.sum(p, function(d) { return d[candidateB]; })
+      d3.sum(p, function(d) { return d[candidateB] })
       return a
      })
     .map(data)
 }
 
+function nestSimplified (obj, asdf) {
+  var result = {}
+  for (var prop in obj){
+    result[prop] = obj[prop][asdf]
+  }
+  return result
+}
+
 function getFromData(id, prop, data, type) {
+  //TODO use simplified mapDict created from oneCandidate()/twoCandidates()
   var result = data.find(function(el){
     // type can be "Election_Day" or "VBM"
     return +el[prop] === +id && el.ballot_type === type
