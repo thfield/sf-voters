@@ -6,8 +6,8 @@ var theDataPath = 'data/pres_dem.csv',
     // theMap  = 'data/sfneighborhoods_topo.json',
     // geometry = 'SFFind_Neighborhoods',
     geoClass = 'precinct',
-    geoColor = 'blue', //pink',
-    defprop = 'HILLARY_CLINTON',//'DONALD_TRUMP',//
+    geoColor = 'blue',
+    defprop = 'HILLARY_CLINTON',
     ballotType = 'Election_Day',
     candidate1 = 'HILLARY_CLINTON',
     candidate2 = 'BERNIE_SANDERS'
@@ -42,19 +42,19 @@ var legend = d3.legend.color()
   .labelFormat(d3.format("f"))
   .useClass(true)
 
-/* end init values */
+/* end setup */
 
-var zoom = d3.behavior.zoom()
-    .translate([0, 0])
-    .scale(1)
-    .scaleExtent([1, 8])
-    .on("zoom", zoomed)
-
-function zoomed() {
-  var g = d3.select('#map_container .'+geoClass+'s')
-  g.style("stroke-width", 1 / d3.event.scale + "px")
-  g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")")
-}
+/* not using zoom yet */
+// var zoom = d3.behavior.zoom()
+//     .translate([0, 0])
+//     .scale(1)
+//     .scaleExtent([1, 8])
+//     .on("zoom", zoomed)
+// function zoomed() {
+//   var g = d3.select('#map_container .'+geoClass+'s')
+//   g.style("stroke-width", 1 / d3.event.scale + "px")
+//   g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")")
+// }
 
 /* tooltip dispatcher */
 var tt = d3.dispatch('init', 'follow', 'hide')
@@ -136,9 +136,8 @@ function redrawMap(){
   }
 
   var exten = d3.extent(theData[options.party],function(el){ return +el[cand] })
-  console.log(exten)
-  
   colors.domain(exten)
+
   // redraw the map after the initial rendering
   svg.selectAll('.'+ geoClass)
       .attr('class', function(d){
@@ -188,7 +187,7 @@ function renderMap (error, map, data, data2) {
   theData.dem = data,
   theData.rep = data2
 
-  // TODO: write loop to combine VBM and Election_Day results and create new row with ballot_type: "both"
+  // TODO: change getFromData to use rolled up data like compareCandidates
 
   var exten = d3.extent(data,function(el){ return +el[defprop] })
   colors.domain(exten)
@@ -234,7 +233,7 @@ function compareCandidates(data, candidateA, candidateB) {
 
 function getFromData(id, prop, data, type) {
   var result = data.find(function(el){
-    //"Election_Day" or "VBM"
+    // type can be "Election_Day" or "VBM"
     return +el[prop] === +id && el.ballot_type === type
   })
   return result
@@ -259,13 +258,6 @@ function rangeArray (bins) {
   return result
 }
 
-
-
-
-// function transformData (data) {
-//   data.forEach()
-//   return data
-// }
 
 /* add listener to select options */
 $(".candidate-list").change(ui.switchCandidate)
