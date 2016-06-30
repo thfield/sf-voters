@@ -135,9 +135,11 @@ function renderMap (error, map, data, data2) {
   theData.rep = data2
   pageState = readPage()
 
-  var exten = d3.extent(data,function(el){ return +el[defaultProp] })
-  colorScale.domain(exten)
   mapDict = oneCandidate(data, defaultProp, ballotType)
+  // var exten = d3.extent(data,function(el){ return +el[defaultProp] })
+  //TODO colorScale should be fed extent of voting for both, here and in redrawMap
+  var exten = [minOfObjDict(mapDict), maxOfObjDict(mapDict)]
+  colorScale.domain(exten)
 
   svg.append('g')
       .attr('class', geoClass + '-container')
@@ -152,9 +154,9 @@ function renderMap (error, map, data, data2) {
       .attr('class', function(d){
         var obj = mapDict[d.id] || ''
         var colorBin = colorScale(obj)
+        if (d.id === undefined) colorBin = 'white'
         return colorBin + ' ' + geoClass + ' ' + geoColor
       })
-  //
 
   legend.scale(colorScale)
   svg.select(".legendQuant")
@@ -166,22 +168,26 @@ function renderMap (error, map, data, data2) {
 function redrawMap(){
   pageState = readPage()
 
-  var exten = [minOfObjDict(mapDict), maxOfObjDict(mapDict)]
+  var exten
+  // if (pageState.compare === 'two')
+    exten = [minOfObjDict(mapDict), maxOfObjDict(mapDict)]
+  // else
+  //   exten = d3.extent(theData[pageState.party],function(el){ return +el[pageState[pageState.party+'1']] })
+
 
   colorScale.domain(exten)
 
-  // redraw the map after the initial rendering
   svg.selectAll('.'+ geoClass)
       .attr('class', function(d){
-        var obj = mapDict[d.id] || ''
+        var obj = mapDict[d.id] || '-1'
         var colorBin = colorScale(obj)
+        if (d.id === undefined) colorBin = 'white'
         return colorBin + ' ' + geoClass + ' ' + geoColor
       })
-  //
+
   legend.scale(colorScale);
   svg.select(".legendQuant")
     .call(legend);
-
   svg.selectAll('.legendCells .swatch')
     .classed(geoColor, true)
 }
@@ -309,6 +315,7 @@ function getFromData(id, prop, data, type) {
     result.precinct = id
     result.registered_voters = election.registered_voters
     result.turnout = roundToHundredth(result.ballots_cast/result.registered_voters*100)
+    if (isNaN(result.turnout)) result.turnout = 0
   } else {
     result = data.find(function(el){
       // type can be "Election_Day" or "VBM"
