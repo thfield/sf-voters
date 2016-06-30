@@ -20,24 +20,32 @@
 </head>
 
 <body>
-
-  <div class="container clearfix">
+  <div class="container-fluid clearfix">
     <div class="row">
-      <p>
-        Voting precincts are shaded based on the number of votes cast in that precinct for a candidate.  The map does not adjust for population density or registered voter density.
-      </p>
-      <p>
-        Choose two candidates to show the difference between candidate 1 and 2.  Choose ballot type to compare votes cast in person on the day of the election, votes cast by mail, or the sum of both. Hover over a precinct to see information about that precinct.
-      </p>
-      <p>
-        <a href="http://www.sfelections.org/results/20160607/#english_detail">data source</a>
-      </p>
+      <div class="col-xs-12">
+        <p>
+          Voting precincts are shaded based on the number of votes cast in that precinct for a candidate.  The map does not adjust for population density or registered voter density.
+        </p>
+        <p>
+          Choose two candidates to show the difference between candidate 1 and 2.  Choose ballot type to compare votes cast in person on the day of the election, votes cast by mail, or the sum of both. Hover over a precinct to see information about that precinct.
+        </p>
+        <p>
+          <a href="http://www.sfelections.org/results/20160607/#english_detail">data source</a>
+        </p>
+      </div>
     </div>
     <hr>
     <div class="row">
-      <div id="map_container" class="chart-container col-xs-8"> </div>
-      <div id="infobox" class="col-xs-4">
-        <table class="table"></table>
+      <div id="map_container" class="chart-container col-sm-12 col-md-8"> </div>
+      <div class=" col-sm-12 col-md-4">
+        <div id="infobox" class="panel panel-default">
+          <div class="panel-heading"></div>
+          <div class="panel-body">
+            Registered Voters in SF: 468,238 <br>
+            Turnout on June 7, 2016: 264,933 (56.6%)
+          </div>
+          <table class="table"></table>
+        </div>
       </div>
     </div>
 
@@ -45,7 +53,7 @@
       <div class="col-xs-4">
         <label for="party">Party:
           <br>
-          <div class="btn-group" id="party" data-toggle="buttons">
+          <div class="btn-group btn-group-sm" id="party" data-toggle="buttons">
             <label class="btn btn-default active">
               <input type="radio" name="party" autocomplete="off" value="dem" checked>Democrats
             </label>
@@ -59,7 +67,7 @@
       <div class="col-xs-4">
         <label for="compare">Number of candidates:</label>
         <br>
-        <div class="btn-group" id="compare" data-toggle="buttons">
+        <div class="btn-group btn-group-sm" id="compare" data-toggle="buttons">
           <label class="btn btn-default active">
             <input type="radio" name="compare" autocomplete="off" value="one" checked>One
           </label>
@@ -72,7 +80,7 @@
       <div class="col-xs-4">
         <label for="ballot-type">Ballot Type:</label>
         <br>
-        <div class="btn-group" id="ballot-type" data-toggle="buttons">
+        <div class="btn-group btn-group-sm" id="ballot-type" data-toggle="buttons">
           <label class="btn btn-default active">
             <input type="radio" name="ballot-type" autocomplete="off" value="Election_Day" checked>Election Day
           </label>
