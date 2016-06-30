@@ -24,6 +24,7 @@
   <div class="container clearfix">
     <div class="row">
       <div id="map_container" class="chart-container"> </div>
+      <div id="infobox"></div>
     </div>
 
     <div class="row">
@@ -32,10 +33,10 @@
           <br>
           <div class="btn-group" id="party" data-toggle="buttons">
             <label class="btn btn-default active">
-              <input type="radio" name="party" autocomplete="off" value="dem" onChange="ui.switchParty(this.value)" checked>Democrats
+              <input type="radio" name="party" autocomplete="off" value="dem" checked>Democrats
             </label>
             <label class="btn btn-default">
-              <input type="radio" name="party" autocomplete="off" value="rep" onChange="ui.switchParty(this.value)">Republicans
+              <input type="radio" name="party" autocomplete="off" value="rep">Republicans
             </label>
           </div>
         </label>
@@ -46,10 +47,10 @@
         <br>
         <div class="btn-group" id="compare" data-toggle="buttons">
           <label class="btn btn-default active">
-            <input type="radio" name="compare" autocomplete="off" value="one" onChange="ui.switchCompare()" checked>One
+            <input type="radio" name="compare" autocomplete="off" value="one" checked>One
           </label>
-          <label class="btn btn-default disabled">
-            <input type="radio" name="compare" autocomplete="off" value="two" onChange="ui.switchCompare()">Two
+          <label class="btn btn-default">
+            <input type="radio" name="compare" autocomplete="off" value="two">Two
           </label>
         </div>
       </div>
@@ -59,13 +60,13 @@
         <br>
         <div class="btn-group" id="ballot-type" data-toggle="buttons">
           <label class="btn btn-default active">
-            <input type="radio" name="ballot-type" autocomplete="off" value="Election_Day" onChange="ui.switchBallot(this.value)" checked>Election Day
+            <input type="radio" name="ballot-type" autocomplete="off" value="Election_Day" checked>Election Day
           </label>
           <label class="btn btn-default">
-            <input type="radio" name="ballot-type" autocomplete="off" value="VBM" onChange="ui.switchBallot(this.value)">Vote By Mail
+            <input type="radio" name="ballot-type" autocomplete="off" value="VBM">Vote By Mail
           </label>
-          <label class="btn btn-default disabled">
-            <input type="radio" name="ballot-type" autocomplete="off" value="both" onChange="ui.switchBallot(this.value)" disabled>Both
+          <label class="btn btn-default">
+            <input type="radio" name="ballot-type" autocomplete="off" value="both">Both
           </label>
         </div>
       </div>

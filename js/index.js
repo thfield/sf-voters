@@ -117,13 +117,47 @@ ui.on('switchCandidate', function(){
 })
 /* end ui dispatcher */
 
+var q = d3.queue();
+q.defer(d3.json, theMap);
+q.defer(d3.csv, theDataPath, preload);
+q.defer(d3.csv, theDataPath2, preload);
+q.await(renderMap);
+
+function renderMap (error, map, data, data2) {
+  if (error) throw error;
+  theData.dem = data,
+  theData.rep = data2
+
+  var exten = d3.extent(data,function(el){ return +el[defaultProp] })
+  colorScale.domain(exten)
+  mapDict = oneCandidate(data, defaultProp, ballotType)
+
+  svg.append('g')
+      .attr('class', geoClass + '-container')
+    .selectAll('.'+ geoClass)
+      .data(topojson.feature(map, map.objects[geometry]).features)
+    .enter().append('path')
+      // .attr('class', geoClass)
+      .attr('d', path)
+      .on('click', function(d){ return ui.clickedGeo(d.id) })
+      .on('mouseover', function(d){ return ui.mouseOver(d, this) })
+      .on("mouseout", tt.hide )
+      .attr('class', function(d){
+        var obj = mapDict[d.id] || ''
+        var colorBin = colorScale(obj)
+        return colorBin + ' ' + geoClass + ' ' + geoColor
+      })
+  //
+
+  legend.scale(colorScale)
+  svg.select(".legendQuant")
+    .call(legend)
+  svg.selectAll('.legendCells .swatch')
+    .classed(geoColor, true)
+}
+
 function redrawMap(){
   var options = readPage()
-  //which ballotType?
-  //how many candidates?
-  //  if 2, twoCandidates()
-  //  else continue
-  //which candidate(s)
 
   var cand
   if (options.party === 'dem') {
@@ -146,10 +180,8 @@ function redrawMap(){
     }
   }
 
-
-
   var exten = [minOfObjDict(mapDict), maxOfObjDict(mapDict)]
-// debugger;
+
   colorScale.domain(exten)
 
   // redraw the map after the initial rendering
@@ -190,45 +222,6 @@ function readPage() {
   }
 }
 
-var q = d3.queue();
-q.defer(d3.json, theMap);
-q.defer(d3.csv, theDataPath, preload);
-q.defer(d3.csv, theDataPath2, preload);
-q.await(renderMap);
-
-function renderMap (error, map, data, data2) {
-  if (error) throw error;
-  theData.dem = data,
-  theData.rep = data2
-
-  var exten = d3.extent(data,function(el){ return +el[defaultProp] })
-  colorScale.domain(exten)
-  mapDict = oneCandidate(data, defaultProp, ballotType)
-
-  svg.append('g')
-      .attr('class', geoClass + '-container')
-    .selectAll('.'+ geoClass)
-      .data(topojson.feature(map, map.objects[geometry]).features)
-    .enter().append('path')
-      // .attr('class', geoClass)
-      .attr('d', path)
-      .on('click', function(d){ return ui.clickedGeo(d.id) })
-      .on('mouseover', function(d){ return ui.mouseOver(d, this) })
-      .on("mouseout", tt.hide )
-      .attr('class', function(d){
-        var obj = mapDict[d.id] || ''
-        var colorBin = colorScale(obj)
-        return colorBin + ' ' + geoClass + ' ' + geoColor
-      })
-  //
-
-  legend.scale(colorScale)
-  svg.select(".legendQuant")
-    .call(legend)
-  svg.selectAll('.legendCells .swatch')
-    .classed(geoColor, true)
-}
-
 function oneCandidate(data, candidate, ballot) {
   //
   var nested = {}
@@ -248,11 +241,12 @@ function oneCandidate(data, candidate, ballot) {
        })
       .map(data)
   }
-return nested
+  return nested
 }
 
 function twoCandidates(data, candidateA, candidateB, ballot) {
   // returns difference of candidateA-candidateB
+  // candidateA is ".diverging.q8-9"(green), candidateB is ".diverging.q0-9"(purple) in this scale
   var nested = {}
   if (ballot === 'both'){
     nested = d3.nest()
@@ -298,6 +292,7 @@ function preload (obj) {
 }
 
 function rangeArray (bins) {
+  //TODO: i think there is a native d3 function that does this
   var result = [],
       max = bins - 1
   for (var i = 0; i <= max; i++) {
@@ -316,5 +311,8 @@ function maxOfObjDict (obj) {
 }
 
 
-/* add listener to select options */
+/* add listeners to page */
 $(".candidate-list").change(ui.switchCandidate)
+$("input[name='party']").change(function(){ui.switchParty(this.value)})
+$("input[name='compare']").change(function(){ui.switchCompare()})
+$("input[name='ballot-type']").change(function(){ui.switchBallot(this.value)})
