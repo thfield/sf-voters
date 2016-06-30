@@ -124,29 +124,12 @@ path {
 .pink.q8-9 {
   fill: rgba(103, 0, 31, 0.6); }
 
-.green.q0-9 {
-  fill: rgba(247, 252, 245, 0.6); }
-
-.green.q1-9 {
-  fill: rgba(229, 245, 224, 0.6); }
-
-.green.q2-9 {
-  fill: rgba(199, 233, 192, 0.6); }
-
-.green.q3-9 {
-  fill: rgba(161, 217, 155, 0.6); }
-
-.green.q4-9 {
-  fill: rgba(116, 196, 118, 0.6); }
-
-.green.q5-9 {
-  fill: rgba(65, 171, 93, 0.6); }
-
-.green.q6-9 {
-  fill: rgba(35, 139, 69, 0.6); }
-
-.green.q7-9 {
-  fill: rgba(0, 109, 44, 0.6); }
-
-.green.q8-9 {
-  fill: rgba(0, 68, 27, 0.6); }
+.diverging.q0-9  {fill: #762a83;}
+.diverging.q1-9  {fill: #9970ab;}
+.diverging.q2-9  {fill: #c2a5cf;}
+.diverging.q3-9  {fill: #e7d4e8;}
+.diverging.q4-9  {fill: #f7f7f7;}
+.diverging.q5-9  {fill: #d9f0d3;}
+.diverging.q6-9  {fill: #a6dba0;}
+.diverging.q7-9  {fill: #5aae61;}
+.diverging.q8-9  {fill: #1b7837;}

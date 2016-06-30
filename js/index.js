@@ -32,8 +32,8 @@ var path = d3.geo.path()
     .projection(projection)
 
 var bins = rangeArray(9)
-var colors = d3.scale.quantize()
-colors.range(bins)
+var colorScale = d3.scale.quantize()
+colorScale.range(bins)
 
 svg.append("g")
   .attr("class", "legendQuant")
@@ -94,6 +94,7 @@ ui.on('mouseOver', function(d, el) {
 ui.on('switchCompare', function(){
   var secondCandidate = d3.select('#candidate2')
   secondCandidate.classed("hidden", !secondCandidate.classed("hidden"));
+  redrawMap()
 })
 ui.on('switchParty', function(party){
   var dem = d3.selectAll('.candidates').filter('.dem'),
@@ -125,27 +126,41 @@ function redrawMap(){
   //which candidate(s)
 
   var cand
-  if (options.party === 'dem' && options.compare === 'one') {
-    cand = options.dem1
-    geoColor = 'blue'
+  if (options.party === 'dem') {
+    if (options.compare === 'two'){
+      mapDict = twoCandidates(theData.dem, options.dem1, options.dem2, options.ballot)
+      geoColor = 'diverging'
+    }else{
+      mapDict = oneCandidate(theData.dem, options.dem1, options.ballot)
+      geoColor = 'blue'
+    }
   }
-  if (options.party === 'rep' && options.compare === 'one') {
-    cand = options.rep1
-    geoColor = 'pink'
+  if (options.party === 'rep') {
+    if (options.compare === 'two'){
+      mapDict = twoCandidates(theData.rep, options.rep1, options.rep2, options.ballot)
+      geoColor = 'diverging'
+      }
+    else{
+      mapDict = oneCandidate(theData.rep, options.rep1, options.ballot)
+      geoColor = 'pink'
+    }
   }
 
-  var exten = d3.extent(theData[options.party],function(el){ return +el[cand] })
-  colors.domain(exten)
+
+
+  var exten = [minOfObjDict(mapDict), maxOfObjDict(mapDict)]
+// debugger;
+  colorScale.domain(exten)
 
   // redraw the map after the initial rendering
   svg.selectAll('.'+ geoClass)
       .attr('class', function(d){
-        var obj = getFromData(d.id, 'precinct', theData[options.party], options.ballot) || ''
-        var colorBin = colors(obj[cand])
+        var obj = mapDict[d.id] || ''
+        var colorBin = colorScale(obj)
         return colorBin + ' ' + geoClass + ' ' + geoColor
       })
   //
-  legend.scale(colors);
+  legend.scale(colorScale);
   svg.select(".legendQuant")
     .call(legend);
 
@@ -187,7 +202,8 @@ function renderMap (error, map, data, data2) {
   theData.rep = data2
 
   var exten = d3.extent(data,function(el){ return +el[defaultProp] })
-  colors.domain(exten)
+  colorScale.domain(exten)
+  mapDict = oneCandidate(data, defaultProp, ballotType)
 
   svg.append('g')
       .attr('class', geoClass + '-container')
@@ -200,13 +216,13 @@ function renderMap (error, map, data, data2) {
       .on('mouseover', function(d){ return ui.mouseOver(d, this) })
       .on("mouseout", tt.hide )
       .attr('class', function(d){
-        var obj = getFromData(d.id, 'precinct', data, ballotType) || ''
-        var colorBin = colors(obj[defaultProp])
+        var obj = mapDict[d.id] || ''
+        var colorBin = colorScale(obj)
         return colorBin + ' ' + geoClass + ' ' + geoColor
       })
   //
 
-  legend.scale(colors)
+  legend.scale(colorScale)
   svg.select(".legendQuant")
     .call(legend)
   svg.selectAll('.legendCells .swatch')
@@ -220,27 +236,26 @@ function oneCandidate(data, candidate, ballot) {
     nested = d3.nest()
         .key(function(d) { return d.precinct })
         .rollup(function(p) {
-          return d3.sum(p, function(d) { return d.HILLARY_CLINTON; })
+          return d3.sum(p, function(d) { return d[candidate] })
          })
         .map(data)
   } else {
     nested = d3.nest()
       .key(function(d) { return d.precinct })
-      .key(function(d) { return d.ballot_type })
       .rollup(function(p) {
-        return d3.sum(p, function(d) { return d[candidate] })
+        //TODO this shouldn't have to sum?
+        return d3.sum(p, function(d) { return d.ballot_type === ballot && d[candidate] })
        })
       .map(data)
-    nested = nestSimplified(nested, ballot)
   }
-
 return nested
 }
 
-function twoCandidates(data, candidateA, candidateB) {
-  // returns difference of candidateA-candidateB (for sum of VBM and Election_Day)
-  //TODO  allot passing in of 'ballot' prop to compare ballot types
-  return d3.nest()
+function twoCandidates(data, candidateA, candidateB, ballot) {
+  // returns difference of candidateA-candidateB
+  var nested = {}
+  if (ballot === 'both'){
+    nested = d3.nest()
     .key(function(d) { return d.precinct })
     .rollup(function(p) { var a =
       d3.sum(p, function(d) { return d[candidateA] })
@@ -249,24 +264,28 @@ function twoCandidates(data, candidateA, candidateB) {
       return a
      })
     .map(data)
-}
-
-function nestSimplified (obj, asdf) {
-  var result = {}
-  for (var prop in obj){
-    result[prop] = obj[prop][asdf]
+  } else {
+    var nested = d3.nest()
+      .key(function(d) { return d.precinct })
+      .rollup(function(p) { var a =
+        d3.sum(p, function(d) { return d.ballot_type === ballot && d[candidateA] })
+        -
+        d3.sum(p, function(d) { return d.ballot_type === ballot && d[candidateB] })
+        return a
+       })
+      .map(data)
   }
-  return result
+  return nested
 }
 
-function getFromData(id, prop, data, type) {
-  //TODO use simplified mapDict created from oneCandidate()/twoCandidates()
-  var result = data.find(function(el){
-    // type can be "Election_Day" or "VBM"
-    return +el[prop] === +id && el.ballot_type === type
-  })
-  return result
-}
+// function getFromData(id, prop, data, type) {
+//   //TODO use simplified mapDict created from oneCandidate()/twoCandidates()
+//   var result = data.find(function(el){
+//     // type can be "Election_Day" or "VBM"
+//     return +el[prop] === +id && el.ballot_type === type
+//   })
+//   return result
+// }
 
 function preload (obj) {
   for (prop in obj){
@@ -285,6 +304,15 @@ function rangeArray (bins) {
    result.push('q'+ i + '-' + bins);
   }
   return result
+}
+
+function minOfObjDict (obj) {
+  var result = Object.keys(obj).reduce(function(a, b){ return obj[a] < obj[b] ? a : b });
+  return obj[result]
+}
+function maxOfObjDict (obj) {
+  var result = Object.keys(obj).reduce(function(a, b){ return +obj[a] > +obj[b] ? a : b });
+  return obj[result]
 }
 
 
