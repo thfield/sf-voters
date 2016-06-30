@@ -1,3 +1,5 @@
+//TODO add percent of registered voters voting for this candidate
+
 /* init values */
 var theDataPath = 'data/pres_dem.csv',
     theDataPath2 = 'data/pres_rep.csv',
@@ -207,8 +209,11 @@ function populateInfobox(precinct) {
   table.append('<tr><td>Ballots Cast '+ ballot +':</td><td>' + data.ballots_cast + '</td></tr>')
   table.append('<tr><td>Turnout:</td><td>' + data.turnout + '%</td></tr>')
   table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidateA"':'') +'>Votes for '+ toTitleCase(candidateA.replace(/_/,' ')) +':</td><td>' + data[candidateA] + '</td></tr>')
-  if (pageState.compare === 'two')
+  table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidateA"':'') +'>% of Votes for '+ toTitleCase(candidateA.replace(/_/,' ')) +':</td><td>' + roundToHundredth(data[candidateA]/data.registered_voters*100) + '%</td></tr>')
+  if (pageState.compare === 'two'){
     table.append('<tr><td class="candidateB">Votes for '+ toTitleCase(candidateB.replace(/_/,' ')) +':</td><td>' + data[candidateB] + '</td></tr>')
+    table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidateB"':'') +'>% of Votes for '+ toTitleCase(candidateB.replace(/_/,' ')) +':</td><td>' + roundToHundredth(data[candidateB]/data.registered_voters*100) + '%</td></tr>')  
+  }
 }
 
 function readPage() {
