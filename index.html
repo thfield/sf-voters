@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>SF Maps</title>
+  <title>SF Voters</title>
   <link rel="stylesheet" href="css/stylesheet.css">
   <link rel="stylesheet" href="vendor/css/bootstrap.css">
 
@@ -23,12 +23,14 @@
 
   <div class="container clearfix">
     <div class="row">
-      <div id="map_container" class="chart-container"> </div>
-      <div id="infobox"></div>
+      <div id="map_container" class="chart-container col-xs-8"> </div>
+      <div id="infobox" class="col-xs-4">
+        <table class="table"></table>
+      </div>
     </div>
 
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-xs-4">
         <label for="party">Party:
           <br>
           <div class="btn-group" id="party" data-toggle="buttons">
@@ -42,7 +44,7 @@
         </label>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-xs-4">
         <label for="compare">Number of candidates:</label>
         <br>
         <div class="btn-group" id="compare" data-toggle="buttons">
@@ -55,7 +57,7 @@
         </div>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-xs-4">
         <label for="ballot-type">Ballot Type:</label>
         <br>
         <div class="btn-group" id="ballot-type" data-toggle="buttons">
@@ -73,7 +75,7 @@
     </div>
 
     <div class="row">
-      <div class="col-md-6" id="candidate1">
+      <div class="col-xs-6" id="candidate1">
         <div class="candidates dem form-group">
           <label for="candidates-democrats">Candidate:</label>
           <select id="candidate1-d" class="candidate-list form-control" name="candidates-democrats">
@@ -99,7 +101,7 @@
           </select>
         </div>
       </div>
-      <div class="col-md-6 hidden" id="candidate2">
+      <div class="col-xs-6 hidden" id="candidate2">
         <div class="candidates dem form-group">
           <label for="candidates-democrats2">Candidate 2:</label>
           <select id="candidate2-d" class="candidate-list form-control" name="candidates-democrats2">
