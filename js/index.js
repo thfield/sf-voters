@@ -17,18 +17,18 @@ var theData = {},
     mapDict = {},
     pageState = {}
 
-var width = 600,
-    height = 600,
+var width = parseInt(d3.select('#map_container').style('width')),
+    height = width,
     active = d3.select(null)
 
 var svg = d3.select("#map_container").append("svg")
-    .attr("width", width)
-    .attr("height", height)
+    .style('width', width + 'px')
+    .style('height', height + 'px');
     // .on("click", stopped, true)
 
 var projection = d3.geo.mercator()
     .center([-122.433701, 37.767683])
-    .scale(200000)
+    .scale(350 * width)
     .translate([width / 2, height / 2])
 
 var path = d3.geo.path()
@@ -176,7 +176,6 @@ function redrawMap(){
   // else
   //   exten = d3.extent(theData[pageState.party],function(el){ return +el[pageState[pageState.party+'1']] })
 
-
   colorScale.domain(exten)
 
   svg.selectAll('.'+ geoClass)
@@ -212,7 +211,7 @@ function populateInfobox(precinct) {
   table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidateA"':'') +'>% of Votes for '+ toTitleCase(candidateA.replace(/_/,' ')) +':</td><td>' + roundToHundredth(data[candidateA]/data.registered_voters*100) + '%</td></tr>')
   if (pageState.compare === 'two'){
     table.append('<tr><td class="candidateB">Votes for '+ toTitleCase(candidateB.replace(/_/,' ')) +':</td><td>' + data[candidateB] + '</td></tr>')
-    table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidateB"':'') +'>% of Votes for '+ toTitleCase(candidateB.replace(/_/,' ')) +':</td><td>' + roundToHundredth(data[candidateB]/data.registered_voters*100) + '%</td></tr>')  
+    table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidateB"':'') +'>% of Votes for '+ toTitleCase(candidateB.replace(/_/,' ')) +':</td><td>' + roundToHundredth(data[candidateB]/data.registered_voters*100) + '%</td></tr>')
   }
 }
 
@@ -363,6 +362,26 @@ function toTitleCase(str){
 }
 function roundToHundredth(num){
   return Math.round(100*num)/100
+}
+
+d3.select(window).on('resize', resize);
+function resize() {
+  console.log(width)
+  // adjust things when the window size changes
+  width = parseInt(d3.select('#map_container').style('width'))
+  console.log(width)
+  height = width
+  // update projection
+  projection
+    .translate([width / 2, height / 2])
+    .scale(350 * width)
+  // resize the map container
+  svg
+      .style('width', width + 'px')
+      .style('height', height + 'px')
+  // resize the map
+  svg.selectAll('.'+geoClass).attr('d', path);
+  // map.selectAll('.state').attr('d', path);
 }
 
 /* add listeners to page */
