@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>SF Voters</title>
+  <link rel="stylesheet" href="css/stylesheet.css">
+  <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="vendor/d3.min.js" charset="utf-8"></script>
+  <script src="vendor/topojson.js" charset="utf-8"></script>
+  <script src="vendor/index.js"></script><!-- d3.geo.tile.js -->
+  <script src="vendor/d3-queue.js"></script>
+  <script src="vendor/d3-legend.js"></script>
+  <script src="vendor/jquery-2.2.4.min.js"></script>
+  <script src="vendor/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <div class="container-fluid clearfix">
+    <div class="row">
+      <div class="col-xs-12">
+        <p>
+          Voting precincts are shaded based on the number of votes cast in that precinct for a candidate.  The map does not adjust for population density or registered voter density.
+        </p>
+        <p>
+          Choose ballot type to compare votes cast in person on the day of the election, votes cast by mail, or the sum of both. Hover over a precinct to see information about that precinct.
+        </p>
+        <p>
+          <a href="http://www.sfelections.org/results/20160607/#english_detail">data source</a>
+        </p>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div id="map_container" class="chart-container col-xs-12 col-md-6"></div>
+      <div class=" col-xs-12 col-md-4">
+        <div id="infobox" class="panel panel-default">
+          <div class="panel-heading"></div>
+          <div class="panel-body">
+            Registered Voters in SF: 468,238 <br>
+            Turnout on June 7, 2016: 264,933 (56.6%)
+          </div>
+          <table class="table"></table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- <div class="col-xs-4">
+        <label for="party">Party:
+          <br>
+          <div class="btn-group btn-group-sm" id="party" data-toggle="buttons">
+            <label class="btn btn-default active">
+              <input type="radio" name="party" autocomplete="off" value="dem" checked>Democrats
+            </label>
+            <label class="btn btn-default">
+              <input type="radio" name="party" autocomplete="off" value="rep">Republicans
+            </label>
+          </div>
+        </label>
+      </div> -->
+      <div class="col-xs-4">
+        <div class=" form-group">
+          <label for="all-results">Election Results for:</label>
+          <select id="all-results" name="all-results" class=" form-control">
+            <option value="loading" selected>Loading...</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-xs-4">
+        <label for="ballot-type">Ballot Type:</label>
+        <br>
+        <div class="btn-group btn-group-sm" id="ballot-type" data-toggle="buttons">
+          <label class="btn btn-default active">
+            <input type="radio" name="ballot-type" autocomplete="off" value="Election_Day" checked>Election Day
+          </label>
+          <label class="btn btn-default">
+            <input type="radio" name="ballot-type" autocomplete="off" value="VBM">Vote By Mail
+          </label>
+          <label class="btn btn-default">
+            <input type="radio" name="ballot-type" autocomplete="off" value="both">Both
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-6">
+        <div class="candidates form-group">
+          <label for="candidates">Candidate:</label>
+          <select id="candidates" name="candidates" class="candidate-list form-control">
+            <option value="loading" selected>Loading...</option>
+          </select>
+        </div>
+    </div>
+
+
+
+
+  </div>
+
+  <script src="js/all.js"></script>
+
+</body>
+
+</html>
