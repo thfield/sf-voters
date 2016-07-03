@@ -95,7 +95,7 @@ ui.on('mouseOut', function() {
   table.empty()
 })
 ui.on('switchCompare', function(){
-  var secondCandidate = d3.select('#candidate2')
+  var secondCandidate = d3.select('#secondCandidate')
   secondCandidate.classed("hidden", !secondCandidate.classed("hidden"));
   redrawMap()
 })
@@ -138,10 +138,12 @@ function onLoad (error, data, mapdata) {
 function setupDropdowns (election) {
   election = electionProperties(election)
   geoColor = election.color
-  var candidateSelector = document.getElementById('candidate-selector')
-  candidateSelector.innerHTML = ""
-  election.options.forEach(addOption, candidateSelector)
-  candidateSelector.value = candidateSelector.options[0].value
+  var candidateSelectors = [document.getElementById('candidate-selector'),document.getElementById('second-candidate-selector')]
+  candidateSelectors.forEach(function (selector,i) {
+    selector.innerHTML = ""
+    election.options.forEach(addOption, selector)
+    selector.value = selector.options[i].value
+  })
 }
 
 function electionProperties (display) {
@@ -181,7 +183,6 @@ function renderMap (map) {
 
 function redrawMap () {
   pageState = readPage()
-  mapDict = oneCandidate(theData, pageState.candidate, pageState.ballot)
 
   var exten = [minOfObjDict(mapDict), maxOfObjDict(mapDict)]
   colorScale.domain(exten)
@@ -204,40 +205,46 @@ function redrawMap () {
 function populateInfobox (precinct) {
   var data = getFromData(precinct, 'precinct', theData, pageState.ballot)
   var candidate =pageState.candidate
-  // var candidateB = pageState[pageState.party+'2']
+  var candidateB = pageState.candidate2
   var ballot = " in Person"
   if (pageState.ballot === "both") ballot = " in Total"
   if (pageState.ballot === "VBM") ballot = " by Mail"
 
-  console.log(data[candidate])
   var table = $('#infobox table')
   table.empty()
   table.append('<tr><td>Precinct:</td><td>' + precinct + '</td></tr>')
   table.append('<tr><td>Registered Voters:</td><td>' + data.registered_voters + '</td></tr>')
   table.append('<tr><td>Ballots Cast '+ ballot +':</td><td>' + data.ballots_cast + '</td></tr>')
   table.append('<tr><td>Turnout:</td><td>' + data.turnout + '%</td></tr>')
-  table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidate"':'') +'>Votes for '+ toTitleCase(candidate.replace(/_/,' ')) +':</td><td>' + ((data[candidate]==="") ? '0' : data[candidate]) + '</td></tr>')
-  table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidate"':'') +'>% of Votes for '+ toTitleCase(candidate.replace(/_/,' ')) +':</td><td>' + roundToHundredth(data[candidate]/data.registered_voters*100) + '%</td></tr>')
-  // if (pageState.compare === 'two'){
-  //   table.append('<tr><td class="candidateB">Votes for '+ toTitleCase(candidateB.replace(/_/,' ')) +':</td><td>' + data[candidateB] + '</td></tr>')
-  //   table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidateB"':'') +'>% of Votes for '+ toTitleCase(candidateB.replace(/_/,' ')) +':</td><td>' + roundToHundredth(data[candidateB]/data.registered_voters*100) + '%</td></tr>')
-  // }
+  table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidateA"':'') +'>Votes for '+ toTitleCase(candidate.replace(/_/,' ')) +':</td><td>' + ((data[candidate]==="") ? '0' : data[candidate]) + '</td></tr>')
+  table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidateA"':'') +'>% of Votes for '+ toTitleCase(candidate.replace(/_/,' ')) +':</td><td>' + roundToHundredth(data[candidate]/data.registered_voters*100) + '%</td></tr>')
+  if (pageState.compare === 'two'){
+    table.append('<tr><td class="candidateB">Votes for '+ toTitleCase(candidateB.replace(/_/,' ')) +':</td><td>' + ((data[candidateB]==="") ? '0' : data[candidateB]) + '</td></tr>')
+    table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidateB"':'') +'>% of Votes for '+ toTitleCase(candidateB.replace(/_/,' ')) +':</td><td>' + roundToHundredth(data[candidateB]/data.registered_voters*100) + '%</td></tr>')
+  }
 }
 
 function readPage () {
   // read the selected values from the page
   var ballot =  document.querySelector('input[name="ballot-type"]:checked').value
   var candidate = document.getElementById('candidate-selector').value
+  var candidate2 = document.getElementById('second-candidate-selector').value
   var election = document.getElementById('election-selector').value
-  var compare //placeholder
+  var compare = document.querySelector('input[name="compare"]:checked').value
 
   /* set global vars */
-  mapDict = oneCandidate(theData, candidate, ballot)
+  if (compare === 'two') {
+    mapDict = twoCandidates(theData, candidate, candidate2, ballot)
+    geoColor = 'diverging'
+  } else {
+    mapDict = oneCandidate(theData, candidate, ballot)
+  }
 
   return {
     compare: compare,
     ballot: ballot,
     candidate: candidate,
+    candidate2: candidate2,
     election: election
   }
 }
@@ -263,33 +270,33 @@ function oneCandidate (data, candidate, ballot) {
   return nested
 }
 
-// function twoCandidates(data, candidateA, candidateB, ballot) {
-//   // returns difference of candidateA-candidateB
-//   // candidateA is ".diverging.q8-9"(green), candidateB is ".diverging.q0-9"(purple) in this scale
-//   var nested = {}
-//   if (ballot === 'both'){
-//     nested = d3.nest()
-//     .key(function(d) { return d.precinct })
-//     .rollup(function(p) { var a =
-//       d3.sum(p, function(d) { return d[candidateA] })
-//       -
-//       d3.sum(p, function(d) { return d[candidateB] })
-//       return a
-//      })
-//     .map(data)
-//   } else {
-//     var nested = d3.nest()
-//       .key(function(d) { return d.precinct })
-//       .rollup(function(p) { var a =
-//         d3.sum(p, function(d) { return d.ballot_type === ballot && d[candidateA] })
-//         -
-//         d3.sum(p, function(d) { return d.ballot_type === ballot && d[candidateB] })
-//         return a
-//        })
-//       .map(data)
-//   }
-//   return nested
-// }
+function twoCandidates(data, candidateA, candidateB, ballot) {
+  // returns difference of candidateA-candidateB
+  // candidateA is ".diverging.q8-9"(green), candidateB is ".diverging.q0-9"(purple) in this scale
+  var nested = {}
+  if (ballot === 'both'){
+    nested = d3.nest()
+    .key(function(d) { return d.precinct })
+    .rollup(function(p) { var a =
+      d3.sum(p, function(d) { return d[candidateA] })
+      -
+      d3.sum(p, function(d) { return d[candidateB] })
+      return a
+     })
+    .map(data)
+  } else {
+    var nested = d3.nest()
+      .key(function(d) { return d.precinct })
+      .rollup(function(p) { var a =
+        d3.sum(p, function(d) { return d.ballot_type === ballot && d[candidateA] })
+        -
+        d3.sum(p, function(d) { return d.ballot_type === ballot && d[candidateB] })
+        return a
+       })
+      .map(data)
+  }
+  return nested
+}
 
 function getFromData (id, prop, data, type) {
   var result = {}
@@ -386,5 +393,5 @@ function resize() {
 /* add listeners to page */
 $("#election-selector").change(ui.switchElection)
 $(".candidate-list").change(ui.switchCandidate)
-// $("input[name='compare']").change(function(){ui.switchCompare()})
+$("input[name='compare']").change(function(){ui.switchCompare()})
 $("input[name='ballot-type']").change(function(){ui.switchBallot(this.value)})
