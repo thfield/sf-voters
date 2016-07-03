@@ -238,6 +238,7 @@ function readPage () {
     geoColor = 'diverging'
   } else {
     mapDict = oneCandidate(theData, candidate, ballot)
+    geoColor = electionProperties(election).color
   }
 
   return {
