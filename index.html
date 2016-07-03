@@ -50,7 +50,7 @@
     </div>
 
     <div class="row">
-      <div class="col-xs-4">
+      <!-- <div class="col-xs-4">
         <label for="party">Party:
           <br>
           <div class="btn-group btn-group-sm" id="party" data-toggle="buttons">
@@ -62,6 +62,14 @@
             </label>
           </div>
         </label>
+      </div> -->
+      <div class="col-xs-4">
+        <div class=" form-group">
+          <label for="election-selector">Election Results for:</label>
+          <select id="election-selector" name="election-selector" class=" form-control">
+            <option value="loading" selected>Loading...</option>
+          </select>
+        </div>
       </div>
 
       <div class="col-xs-4">
@@ -95,61 +103,22 @@
     </div>
 
     <div class="row">
-      <div class="col-xs-6" id="candidate1">
-        <div class="candidates dem form-group">
-          <label for="candidates-democrats">Candidate:</label>
-          <select id="candidate1-d" class="candidate-list form-control" name="candidates-democrats">
-            <option value="KEITH_JUDD">Keith Judd</option>
-            <option value="MICHAEL_STEINBERG">Michael Steinberg</option>
-            <option value="BERNIE_SANDERS">Bernie Sanders</option>
-            <option value="WILLIE_WILSON">Willie Wilson</option>
-            <option value="ROQUE_DE_LA_FUENTE">Roque De La Fuente</option>
-            <option value="HILLARY_CLINTON" selected>Hillary Clinton</option>
-            <option value="HENRY_HEWES">Henry Hewes</option>
-            <option value="WRITE_IN">Write In</option>
+      <div class="col-xs-6">
+        <div class="candidates form-group">
+          <label for="candidate-selector">Candidate:</label>
+          <select id="candidate-selector" name="candidates" class="candidate-list form-control">
+            <option value="loading" selected>Loading...</option>
           </select>
         </div>
-        <div class="candidates rep hidden form-group">
-          <label for="candidates-republicans">Candidate:</label>
-          <select id="candidate1-r" class="candidate-list form-control" name="candidates-republicans">
-            <option value="DONALD_TRUMP" selected>Donald Trump</option>
-            <option value="BEN_CARSON">Ben Carson</option>
-            <option value="TED_CRUZ">Ted Cruz</option>
-            <option value="JOHN_KASICH">John Kasich</option>
-            <option value="JIM_GILMORE">Jim Gilmore</option>
-            <option value="WRITE_IN">Write In</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-xs-6 hidden" id="candidate2">
-        <div class="candidates dem form-group">
-          <label for="candidates-democrats2">Candidate 2:</label>
-          <select id="candidate2-d" class="candidate-list form-control" name="candidates-democrats2">
-            <option value="KEITH_JUDD">Keith Judd</option>
-            <option value="MICHAEL_STEINBERG">Michael Steinberg</option>
-            <option value="BERNIE_SANDERS" selected>Bernie Sanders</option>
-            <option value="WILLIE_WILSON">Willie Wilson</option>
-            <option value="ROQUE_DE_LA_FUENTE">Roque De La Fuente</option>
-            <option value="HILLARY_CLINTON">Hillary Clinton</option>
-            <option value="HENRY_HEWES">Henry Hewes</option>
-            <option value="WRITE_IN">Write In</option>
-          </select>
-        </div>
-        <div class="candidates rep hidden form-group">
-          <label for="candidates-republicans2">Candidate 2:</label>
-          <select id="candidate2-r" class="candidate-list form-control" name="candidates-republicans2">
-            <option value="DONALD_TRUMP">Donald Trump</option>
-            <option value="BEN_CARSON" selected>Ben Carson</option>
-            <option value="TED_CRUZ">Ted Cruz</option>
-            <option value="JOHN_KASICH">John Kasich</option>
-            <option value="JIM_GILMORE">Jim Gilmore</option>
-            <option value="WRITE_IN">Write In</option>
-          </select>
-        </div>
+    </div>
+    <div class="col-xs-6">
+      <div id="secondCandidate" class="candidates form-group hidden">
+        <label for="second-candidate-selector">Second Candidate:</label>
+        <select id="second-candidate-selector" name="second-candidate" class="candidate-list form-control">
+          <option value="loading" selected>Loading...</option>
+        </select>
       </div>
     </div>
-
-
   </div>
 
   <script src="js/index.js"></script>
