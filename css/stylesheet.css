@@ -92,6 +92,24 @@ path {
 .red.q6-9 {fill: #cb181d;}
 .red.q7-9 {fill: #a50f15;}
 .red.q8-9 {fill: #67000d;}
+.green.q0-9 {fill: #f7fcf5;}
+.green.q1-9 {fill: #e5f5e0;}
+.green.q2-9 {fill: #c7e9c0;}
+.green.q3-9 {fill: #a1d99b;}
+.green.q4-9 {fill: #74c476;}
+.green.q5-9 {fill: #41ab5d;}
+.green.q6-9 {fill: #238b45;}
+.green.q7-9 {fill: #006d2c;}
+.green.q8-9 {fill: #00441b;}
+.purple.q0-9 {fill: #fcfbfd;}
+.purple.q1-9 {fill: #efedf5;}
+.purple.q2-9 {fill: #dadaeb;}
+.purple.q3-9 {fill: #bcbddc;}
+.purple.q4-9 {fill: #9e9ac8;}
+.purple.q5-9 {fill: #807dba;}
+.purple.q6-9 {fill: #6a51a3;}
+.purple.q7-9 {fill: #54278f;}
+.purple.q8-9 {fill: #3f007d;}
 .diverging.q0-9 {fill: #762a83;}
 .diverging.q1-9 {fill: #9970ab;}
 .diverging.q2-9 {fill: #c2a5cf;}
@@ -106,3 +124,4 @@ path {
 .candidateA {color: #1b7837;}
 
 .white {fill: #fff;}
+
