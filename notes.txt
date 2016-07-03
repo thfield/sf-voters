@@ -1,0 +1,7 @@
+show by:
+- neighborhood
+- supervisor district
+- precinct
+- census tract?
+
+topojson elect_precincts_combined_geo.geojson -o elect_precincts_combined.topojson --id-property prec_2012 --simplify-proportion 0.5
