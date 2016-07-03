@@ -72,6 +72,19 @@
         </div>
       </div>
 
+      <div class="col-xs-4 hidden">
+        <label for="compare">Number of candidates:</label>
+        <br>
+        <div class="btn-group btn-group-sm" id="compare" data-toggle="buttons">
+          <label class="btn btn-default active">
+            <input type="radio" name="compare" autocomplete="off" value="one" checked>One
+          </label>
+          <label class="btn btn-default">
+            <input type="radio" name="compare" autocomplete="off" value="two">Two
+          </label>
+        </div>
+      </div>
+
       <div class="col-xs-4">
         <label for="ballot-type">Ballot Type:</label>
         <br>
@@ -98,10 +111,14 @@
           </select>
         </div>
     </div>
-
-
-
-
+    <div class="col-xs-6">
+      <div class="candidates form-group hidden">
+        <label for="second-candidate-selector">Candidate:</label>
+        <select id="second-candidate-selector" name="second-candidate" class="candidate-list form-control">
+          <option value="loading" selected>Loading...</option>
+        </select>
+      </div>
+    </div>
   </div>
 
   <script src="js/all.js"></script>

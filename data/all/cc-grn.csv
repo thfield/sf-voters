@@ -1,4 +1,4 @@
-precinct,ballot_type,registered_voters,ballots_cast,turnout,RICHARD_W._STONE,JOHN-MARC_CHANDONIA,BARRY_HERMANSON,MIKE_MURPHY,WRITE-IN,over_votes,under_votes
+precinct,ballot_type,registered_voters,ballots_cast,turnout,RICHARD_W_STONE,JOHN-MARC_CHANDONIA,BARRY_HERMANSON,MIKE_MURPHY,WRITE-IN,over_votes,under_votes
 1101,Election_Day,3,1,33.33,,,1,,,,5
 1101,VBM,3,0,0,,,,,,,
 1102,Election_Day,9,2,22.22,1,1,2,1,,,7

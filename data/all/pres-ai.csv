@@ -1,4 +1,4 @@
-precinct,ballot_type,registered_voters,ballots_cast,turnout,ROBERT_ORNELAS,ALAN_SPEARS,WILEY_DRAKE,JAMES_HEDGES,THOMAS_HOEFLING,ARTHUR_HARRIS,J.R._MYERS,WRITE-IN,over_votes,under_votes
+precinct,ballot_type,registered_voters,ballots_cast,turnout,ROBERT_ORNELAS,ALAN_SPEARS,WILEY_DRAKE,JAMES_HEDGES,THOMAS_HOEFLING,ARTHUR_HARRIS,JR_MYERS,WRITE-IN,over_votes,under_votes
 1101,Election_Day,13,1,7.69,,,,,,,,1,,
 1101,VBM,13,7,53.85,1,,,,1,,,2,,3
 1102,Election_Day,14,5,35.71,,1,,,,1,,,,3

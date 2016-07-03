@@ -209,7 +209,7 @@ function populateInfobox (precinct) {
   if (pageState.ballot === "both") ballot = " in Total"
   if (pageState.ballot === "VBM") ballot = " by Mail"
 
-  console.log(data.re)
+  console.log(data[candidate])
   var table = $('#infobox table')
   table.empty()
   table.append('<tr><td>Precinct:</td><td>' + precinct + '</td></tr>')
