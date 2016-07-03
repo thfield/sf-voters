@@ -85,7 +85,7 @@ var ui = d3.dispatch('clickedGeo', 'mouseOver', 'mouseOut', 'switchCompare', 'sw
 ui.on('clickedGeo', function(geoId){
 })
 ui.on('mouseOver', function(d, el) {
-  // populateInfobox(d.id)
+  populateInfobox(d.id)
   // var me = d3.select(el),
   // thisText = geoClass + ': ' + d.id
   // return tt.follow(me, thisText)
@@ -100,7 +100,6 @@ ui.on('switchCompare', function(){
   redrawMap()
 })
 ui.on('switchElection', function(){
-  console.log('switchElection')
   var election = electionProperties(document.getElementById('election-selector').value)
   setupDropdowns(election.display)
   d3.csv('data/all/' + election.file, function (error, data) {
@@ -137,7 +136,6 @@ function onLoad (error, data, mapdata) {
 }
 
 function setupDropdowns (election) {
-  console.log('setupDropdowns')
   election = electionProperties(election)
   geoColor = election.color
   var candidateSelector = document.getElementById('candidate-selector')
@@ -178,10 +176,10 @@ function renderMap (map) {
     .call(legend)
   svg.selectAll('.legendCells .swatch')
     .classed(geoColor, true)
+  pageState = readPage()
 }
 
 function redrawMap () {
-  console.log('redrawMap')
   pageState = readPage()
   mapDict = oneCandidate(theData, pageState.candidate, pageState.ballot)
 
@@ -204,29 +202,29 @@ function redrawMap () {
 }
 
 function populateInfobox (precinct) {
-  var data = getFromData(precinct, 'precinct', theData[pageState.party], pageState.ballot)
-  var candidateA = pageState[pageState.party+'1'],
-      candidateB = pageState[pageState.party+'2']
+  var data = getFromData(precinct, 'precinct', theData, pageState.ballot)
+  var candidate =pageState.candidate
+  // var candidateB = pageState[pageState.party+'2']
   var ballot = " in Person"
   if (pageState.ballot === "both") ballot = " in Total"
   if (pageState.ballot === "VBM") ballot = " by Mail"
 
+  console.log(data.re)
   var table = $('#infobox table')
   table.empty()
   table.append('<tr><td>Precinct:</td><td>' + precinct + '</td></tr>')
   table.append('<tr><td>Registered Voters:</td><td>' + data.registered_voters + '</td></tr>')
   table.append('<tr><td>Ballots Cast '+ ballot +':</td><td>' + data.ballots_cast + '</td></tr>')
   table.append('<tr><td>Turnout:</td><td>' + data.turnout + '%</td></tr>')
-  table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidateA"':'') +'>Votes for '+ toTitleCase(candidateA.replace(/_/,' ')) +':</td><td>' + data[candidateA] + '</td></tr>')
-  table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidateA"':'') +'>% of Votes for '+ toTitleCase(candidateA.replace(/_/,' ')) +':</td><td>' + roundToHundredth(data[candidateA]/data.registered_voters*100) + '%</td></tr>')
-  if (pageState.compare === 'two'){
-    table.append('<tr><td class="candidateB">Votes for '+ toTitleCase(candidateB.replace(/_/,' ')) +':</td><td>' + data[candidateB] + '</td></tr>')
-    table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidateB"':'') +'>% of Votes for '+ toTitleCase(candidateB.replace(/_/,' ')) +':</td><td>' + roundToHundredth(data[candidateB]/data.registered_voters*100) + '%</td></tr>')
-  }
+  table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidate"':'') +'>Votes for '+ toTitleCase(candidate.replace(/_/,' ')) +':</td><td>' + ((data[candidate]==="") ? '0' : data[candidate]) + '</td></tr>')
+  table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidate"':'') +'>% of Votes for '+ toTitleCase(candidate.replace(/_/,' ')) +':</td><td>' + roundToHundredth(data[candidate]/data.registered_voters*100) + '%</td></tr>')
+  // if (pageState.compare === 'two'){
+  //   table.append('<tr><td class="candidateB">Votes for '+ toTitleCase(candidateB.replace(/_/,' ')) +':</td><td>' + data[candidateB] + '</td></tr>')
+  //   table.append('<tr><td'+ ((pageState.compare === 'two') ?' class="candidateB"':'') +'>% of Votes for '+ toTitleCase(candidateB.replace(/_/,' ')) +':</td><td>' + roundToHundredth(data[candidateB]/data.registered_voters*100) + '%</td></tr>')
+  // }
 }
 
 function readPage () {
-  console.log('readPage')
   // read the selected values from the page
   var ballot =  document.querySelector('input[name="ballot-type"]:checked').value
   var candidate = document.getElementById('candidate-selector').value
@@ -296,8 +294,8 @@ function oneCandidate (data, candidate, ballot) {
 function getFromData (id, prop, data, type) {
   var result = {}
   if (type === 'both'){
-    var election = data.find(function(el){return +el[prop] === +id && el.ballot_type === "Election_Day"}),
-        vbm = data.find(function(el){return +el[prop] === +id && el.ballot_type === "VBM"})
+    var election = data.find(function(el){return el[prop] === id && el.ballot_type === "Election_Day"}),
+        vbm = data.find(function(el){return el[prop] === id && el.ballot_type === "VBM"})
     for (var prop in election){
       result[prop] = election[prop] + vbm[prop]
     }
@@ -309,7 +307,7 @@ function getFromData (id, prop, data, type) {
   } else {
     result = data.find(function(el){
       // type can be "Election_Day" or "VBM"
-      return +el[prop] === +id && el.ballot_type === type
+      return el[prop] === id && el.ballot_type === type
     })
   }
   return result
