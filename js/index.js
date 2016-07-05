@@ -279,9 +279,9 @@ function twoCandidates(data, candidateA, candidateB, ballot) {
     nested = d3.nest()
     .key(function(d) { return d.precinct })
     .rollup(function(p) { var a =
-      d3.sum(p, function(d) { return d[candidateA] })
+      d3.sum(p, function(d) { return +d[candidateA] })
       -
-      d3.sum(p, function(d) { return d[candidateB] })
+      d3.sum(p, function(d) { return +d[candidateB] })
       return a
      })
     .map(data)
