@@ -305,7 +305,7 @@ function getFromData (id, prop, data, type) {
     var election = data.find(function(el){return el[prop] === id && el.ballot_type === "Election_Day"}),
         vbm = data.find(function(el){return el[prop] === id && el.ballot_type === "VBM"})
     for (var prop in election){
-      result[prop] = election[prop] + vbm[prop]
+      result[prop] = +election[prop] + +vbm[prop]
     }
     result.ballot_type = "both"
     result.precinct = id
