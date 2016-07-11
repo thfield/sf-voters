@@ -24,7 +24,10 @@
     <div class="row">
       <div class="col-xs-12">
         <p>
-          Voting precincts are shaded based on the number of votes cast in that precinct for a candidate.  The map does not adjust for population density or registered voter density.
+          The map of San Francisco is divided up into the official <a href="https://data.sfgov.org/Geographic-Locations-and-Boundaries/Election-Precincts-Zipped-Shapefile-Format-/w3ua-z2my">voting precincts</a>.  Voting precincts are shaded based on the number of votes cast in that precinct for the displayed candidate.  
+        </p>
+        <p>
+          The map does not adjust for population density or registered voter density.
         </p>
         <p>
           Choose two candidates to show the difference between candidate 1 and 2.  Choose ballot type to compare votes cast in person on the day of the election, votes cast by mail, or the sum of both. Hover over a precinct to see information about that precinct.
@@ -66,6 +69,7 @@
       <div class="col-xs-4">
         <div class=" form-group">
           <label for="election-selector">Election Results for:</label>
+          <span id="tt-election-selector" class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="tooltip"></span>
           <select id="election-selector" name="election-selector" class=" form-control">
             <option value="loading" selected>Loading...</option>
           </select>
@@ -74,6 +78,7 @@
 
       <div class="col-xs-4">
         <label for="compare">Number of candidates:</label>
+        <span id="tt-compare-selector" class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="tooltip"></span>
         <br>
         <div class="btn-group btn-group-sm" id="compare" data-toggle="buttons">
           <label class="btn btn-default active">
@@ -87,6 +92,7 @@
 
       <div class="col-xs-4">
         <label for="ballot-type">Ballot Type:</label>
+        <span id="tt-ballot-type-selector" class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="tooltip"></span>
         <br>
         <div class="btn-group btn-group-sm" id="ballot-type" data-toggle="buttons">
           <label class="btn btn-default active">
@@ -114,6 +120,7 @@
     <div class="col-xs-6">
       <div id="secondCandidate" class="candidates form-group hidden">
         <label for="second-candidate-selector">Second Candidate:</label>
+        <span id="tt-second-candidate" class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="tooltip"></span>
         <select id="second-candidate-selector" name="second-candidate" class="candidate-list form-control">
           <option value="loading" selected>Loading...</option>
         </select>

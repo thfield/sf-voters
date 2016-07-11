@@ -396,3 +396,14 @@ $("#election-selector").change(ui.switchElection)
 $(".candidate-list").change(ui.switchCandidate)
 $("input[name='compare']").change(function(){ui.switchCompare()})
 $("input[name='ballot-type']").change(function(){ui.switchBallot(this.value)})
+
+/* add help tooltips to page */
+var helpTextElection = 'Choose the election'
+var helpTextCompare = 'Choose One to show the results for a single candidate or Two to show the difference between two candidates (candidate 1 - candidate 2)'
+var helpTextBallot = 'Choose Election Day to show those ballots cast in person, Vote by Mail to show those cast by mail, or Both to show the sum of the two categories'
+var helpTextSecondCandidate = 'The second candidate: votes will be subtracted from the first'
+$('#tt-election-selector').tooltip({placement:'top', title: helpTextElection})
+$('#tt-compare-selector').tooltip({placement:'top', title: helpTextCompare})
+$('#tt-ballot-type-selector').tooltip({placement:'top', title: helpTextBallot})
+$('#tt-second-candidate').tooltip({placement:'top', title: helpTextSecondCandidate})
+
