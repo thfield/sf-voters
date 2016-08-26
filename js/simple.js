@@ -1,14 +1,17 @@
 //TODO add percent of registered voters voting for this candidate
 
 /* init values */
-var theMap  = 'data/elect_precincts_combined.topo.json'
-var theDataFile = 'data/all/pres-dem.csv'
-var geometry = 'precincts'
-var geoClass = 'precinct'
-var geoColor = 'blue'
+var theMap  = 'data/elect_precincts_combined.topo.json' // map file needs to be in topojson format
+var theDataFile = 'data/all/pres-dem.csv' // csv file containing data to be mapped
 
-var idProperty = 'precinct'
-var dataProperty = 'registered_voters'
+var geometry = 'precincts' // the property in the topojson map file (theMap.objects[geometry])
+var geoClass = 'precinct' // css class assigned to map opjects
+var geoColor = 'blue' // css class assigning color
+
+var idProperty = 'precinct'  // geometry-identifying property in csv datafile
+var dataProperty = 'registered_voters' // property in csv datafile containing data of interest
+/* end init values */
+
 
 /* global vars for loaded data */
 var theData = {}
@@ -43,33 +46,47 @@ var legend = d3.legend.color()
 /* end setup */
 
 /* tooltip dispatcher */
-var tt = d3.dispatch('init', 'follow', 'hide')
-tt.on('init', function(element){
-  d3.select(element).append('div')
-      .attr('id', 'tooltip')
-      .attr('class', 'hidden')
-    .append('span')
-      .attr('class', 'value')
-})
-tt.on('follow', function(element, caption){
-  element.on('mousemove', null);
-  element.on('mousemove', function() {
-    var position = d3.mouse(document.body);
-    d3.select('#tooltip')
-      .style('top', ( (position[1] + 30)) + "px")
-      .style('left', ( position[0]) + "px");
-    d3.select('#tooltip .value')
-      .text(caption)
-  });
-  d3.select('#tooltip').classed('hidden', false);
-})
-tt.on('hide', function(){
-  d3.select('#tooltip').classed('hidden', true);
-})
-tt.init('body')
+// var tt = d3.dispatch('init', 'follow', 'hide')
+// tt.on('init', function(element){
+//   d3.select(element).append('div')
+//       .attr('id', 'tooltip')
+//       .attr('class', 'hidden')
+//     .append('span')
+//       .attr('class', 'value')
+// })
+// tt.on('follow', function(element, caption){
+//   element.on('mousemove', null);
+//   element.on('mousemove', function() {
+//     var position = d3.mouse(document.body);
+//     d3.select('#tooltip')
+//       .style('top', ( (position[1] + 30)) + "px")
+//       .style('left', ( position[0]) + "px");
+//     d3.select('#tooltip .value')
+//       .text(caption)
+//   });
+//   d3.select('#tooltip').classed('hidden', false);
+// })
+// tt.on('hide', function(){
+//   d3.select('#tooltip').classed('hidden', true);
+// })
+// tt.init('body')
 /* end tooltip dispatcher */
 
 /* ui dispatcher */
+var ui = d3.dispatch('clickedGeo', 'mouseOver', 'mouseOut')
+ui.on('clickedGeo', function(geoId){
+})
+ui.on('mouseOver', function(d, el) {
+  // // populateInfobox(d.id)
+  // var me = d3.select(el),
+  // thisText = geoClass + ': ' + d.id
+  // return tt.follow(me, thisText)
+})
+ui.on('mouseOut', function() {
+  // var table = $('#infobox table')
+  // table.empty()
+})
+/* end ui dispatcher */
 
 var q = d3.queue()
 q.defer(d3.csv, theDataFile)
