@@ -1,0 +1,122 @@
+100PresidentandVicePresid.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),JILL STEIN / AJAMU BARAKA,HILLARY CLINTON / TIM KAINE,GLORIA ESTELA LA RIVA / DENNIS J. BANK,DONALD J. TRUMP / MICHAEL R. PENCE,GARY JOHNSON / BILL WELD,WRITE-IN,WRITE-IN LAURENCE KOTLIKOFF / EDWARD L,WRITE-IN MIKE MATUREN / JUAN MUNOZ,WRITE-IN EVAN MCMULLIN / NATHAN JOHNSO,WRITE-IN BERNARD 'BERNIE' SANDERS / TU,WRITE-IN JERRY WHITE / NILES NIEMUTH,Under Vote,Over Vote
+105U.S.Senator.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),LORETTA L. SANCHEZ,KAMALA D. HARRIS,Under Vote,Over Vote
+110U.S.RepresentativeDist.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),NANCY PELOSI,PRESTON PICUS,Under Vote,Over Vote
+115U.S.RepresentativeDist.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),SUE CARO,BARBARA LEE,Under Vote,Over Vote
+120U.S.RepresentativeDist.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),JACKIE SPEIER,ANGEL CARDENAS,Under Vote,Over Vote
+125StateSenateDistrict11.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),JANE KIM,SCOTT WIENER,Under Vote,Over Vote
+130StateAssemblyDistrict.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),MATTHEW DEL CARLO,DAVID CHIU,Under Vote,Over Vote
+135StateAssemblyDistrict.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),PHIL TING,CARLOS ''CHUCK'' TAYLOR,Under Vote,Over Vote
+140BoardofSupervisorsDis.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),SAMUEL KWONG,SHERMAN R. D'SILVA,MARJAN PHILHOUR,RICHIE GREENBERG,DAVID LEE,BRIAN J. LARKIN,JONATHAN LYENS,SANDRA LEE FEWER,ANDY THORNLEY,JASON JUNGREIS,WRITE-IN,Under Vote,Over Vote
+145BoardofSupervisorsDis.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),TIM E. DONNELLY,AARON PESKIN,WRITE-IN,Under Vote,Over Vote
+150BoardofSupervisorsDis.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),DEAN PRESTON,LONDON BREED,WRITE-IN,Under Vote,Over Vote
+155BoardofSupervisorsDis.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),JOEL ENGARDIO,JOHN FARRELL,MIKE YOUNG,NORMAN YEE,BEN MATRANGA,WRITE-IN,Under Vote,Over Vote
+160BoardofSupervisorsDis.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),MELISSA SAN MIGUEL,HILLARY RONEN,ISWARI ESPAÑA,JOSHUA ARCE,WRITE-IN,Under Vote,Over Vote
+165BoardofSupervisorsDis.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),AHSHA SAFAI,MAGDALENA DE GUZMAN,FRANCISCO HERRERA,BERTA HERNANDEZ,KIM ALVARENGA,WRITE-IN,Under Vote,Over Vote
+170SuperiorCourtJudgeSea.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),VICTOR HWANG,PAUL HENDERSON,Under Vote,Over Vote
+175MemberBoardofEducatio.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),IAN KALIN,PHIL KIM,JILL WYNNS,MARK SANCHEZ,RACHEL NORTON,MATT HANEY,STEVON COOK,ROB GELLER,TREVOR MCNEIL,WRITE-IN,Under Vote,Over Vote
+180MemberCommunityCollege.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),SHANELL WILLIAMS,ALEX RANDOLPH,TOM TEMPRANO,RAFAEL MANDELMAN,AMY BACHARACH,WRITE-IN,Under Vote,Over Vote
+185BARTDirectorDistrict7.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),LATEEFAH SIMON,WILL ROSCOE,ROLAND EMERSON,ZAKHARY MALLETT,WRITE-IN,Under Vote,Over Vote
+190BARTDirectorDistrict9.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),BEVAN DUFTY,MICHAEL PETRELIS,GWYNETH BORDEN,WRITE-IN,Under Vote,Over Vote
+195StateProposition51.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+200StateProposition52.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+205StateProposition53.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+210StateProposition54.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+215StateProposition55.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+220StateProposition56.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+225StateProposition57.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+230StateProposition58.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+235StateProposition59.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+240StateProposition60.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+245StateProposition61.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+250StateProposition62.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+255StateProposition63.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+260StateProposition64.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+265StateProposition65.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+270StateProposition66.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+275StateProposition67.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+280SchoolMeasureA.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+285SchoolMeasureB.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+290LocalMeasureC.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+295LocalMeasureD.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+300LocalMeasureE.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+305LocalMeasureF.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+310LocalMeasureG.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+315LocalMeasureH.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+320LocalMeasureI.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+325LocalMeasureJ.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+330LocalMeasureK.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+335LocalMeasureL.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+340LocalMeasureM.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+345LocalMeasureN.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+350LocalMeasureO.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+355LocalMeasureP.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+360LocalMeasureQ.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+365LocalMeasureR.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+370LocalMeasureS.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+375LocalMeasureT.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+380LocalMeasureU.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+385LocalMeasureV.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+390LocalMeasureW.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+395LocalMeasureX.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
+400DistrictMeasureRR.csv
+PrecinctName,ReportingType,PrecinctID,Precincts,Registration,Ballots Cast,Turnout (%),Yes,No,Under Vote,Over Vote
